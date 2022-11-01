@@ -162,6 +162,15 @@ kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
 kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
 ```
 
+```{r}
+st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append=FALSE)
+```
+
+
+
+
+
+
 
 ```{r}
 st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append = FALSE)
@@ -170,5 +179,6 @@ st_write(kc_tracts10_shore, "../censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
 st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append= FALSE)
 st_write(kc_tracts10_shore_env_var, "../censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
 ```
+
 
 
