@@ -1,0 +1,174 @@
+---
+title: "Arbeidskrav i MSB205"
+author: 
+ - "Thibiga Kuddyar"
+ - "Ingrid-Liv Morkken"
+format: pdf
+editor: visual
+lang: nb-NO
+---
+
+```{r setup, echo=FALSE, message=FALSE}
+library(tidyverse)
+library(lubridate)
+library(sf)
+library(here)
+library(tmap)
+library(sp)
+library(spdep)
+library(spatialreg)
+library(lmtest)
+library(sandwich)
+library(units)
+library(car)
+library(foreign)
+library(readr)
+```
+
+
+## Oppgave 1
+
+## Oppgave 2; House Sales in King County
+
+```{r, message=FALSE}
+kc_house_data <- read_csv("kc_house_data.csv")
+```
+
+```{r}
+kc_house_data <- arrange(kc_house_data, desc(date))
+```
+
+```{r}
+dplyr::distinct(kc_house_data)
+```
+
+```{r}
+kc_house_data_sf <- st_as_sf(kc_house_data,
+                             coords= c(x = "long", y = "lat"),
+                             crs = 4326) %>%
+  st_transform(2926)
+```
+
+
+Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N
+122°1955V
+I desimaler: 47.609722, -122.333056
+
+## Kan hende ° dette vil skape problemer når det skal konventeres..
+
+
+
+```{r}
+cbd <- st_sfc(st_point(c(-122.333056, 47.609722)), crs = 4326) %>%
+  st_transform(2926)
+cbd
+```
+
+```{r}
+kc_house_data_sf <- kc_house_data_sf %>%
+  mutate(
+    dist_cbd=st_distance(cbd, ., by_element= TRUE),
+    dist_cbd_km = set_units(dist_cbd, km)
+  )
+```
+
+## Oppgave 3 WADOH Environmental Health Disparities Index County 
+
+```{r}
+kc_wadho_map <- here("WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area") %>% 
+  st_read() %>% 
+  st_transform(2926)
+```
+
+```{r}
+kc_wadoh_map <- kc_wadho_map %>%
+select(
+GEO_ID_TRT,
+EHD_percen,#Environmental Health Index, weighted score many vars
+linguist_2,#Pop. age 5+ speaking English less than "very well"
+poverty_pe,#Percentage people living in poverty
+POC_percen,#People of Color in percentage of pop. in tract
+transporta,#% of income spent on transportation median family in tract
+unemploy_2,#percentage unemployed
+housing_pe,#% of households in group "Unaffordable Housing" (>30% inc.)
+traffic_pe,#% of pop. near heavy traffic roadways
+diesel,# nox consentration
+ozone,# ozone consentration
+PM25, # consentration of Particulate Matter in air
+toxic_rele, # Toxic release from factories
+hazardous_, # Hazardous Waste Treatment Storage and disposal Facilities
+lead_perce, # measure of Lead paint in houses
+superfund, # Proximity to contaminated sites on national list
+facilities, # Proximity to Risk Management Plan Facilities
+wastewater, # Proximity to wastewater facilities
+sen_pop_pe, # % pop. over 65
+socio_perc # score social economic determants, low best
+)
+```
+
+```{r}
+acs_b19101_fam_inc <- read.dbf("../censusSHP/acs_b19101_familyincome.dbf")
+```
+
+```{r}
+acs_b19101_fam_inc <- acs_b19101_fam_inc %>% 
+  mutate(low = (E19101138 + E19101139 + E19101140 + E19101141 + E19101141 + E19101143)/E19101147) %>% 
+  mutate(mid = (E19101144 + E19101145 + E19101146 + E19101147 + E19101148 + E19101149)/E19101137) %>% 
+  mutate(high = (E19101150 + E19101151 + E19101152 + E19101153)/E19101137)
+```
+
+```{r}
+acs_b19101_fam_inc <- acs_b19101_fam_inc %>% 
+  select(GEOIDTRT, low, mid, high) %>% 
+  rename(GEO_ID_TRT = GEOIDTRT)
+```
+
+```{r}
+kc_wadho_map_ny <- left_join(
+  acs_b19101_fam_inc,
+ st_drop_geometry(kc_wadho_map),
+  by = "GEO_ID_TRT"
+)
+```
+
+```{r}
+kc_tracts10 <- here("../censusSHP/tracts10.shp") %>%  st_read() %>% 
+  st_transform(2926)
+```
+
+
+```{r}
+kc_tracts10_shore <- here("../censusSHP/tracts10_shore.shp") %>%  st_read() %>% 
+  st_transform(2926)
+```
+
+```{r}
+kc_tracts10_env_data <- left_join(
+  kc_tracts10, kc_wadho_map_ny,
+  by = "GEO_ID_TRT"
+)
+```
+
+```{r}
+kc_tracts10_shore_env_data <- left_join(
+  kc_tracts10_shore,  kc_wadho_map_ny,
+  by = "GEO_ID_TRT"
+)
+```
+
+
+```{r}
+kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
+kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
+```
+
+
+```{r}
+st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append = FALSE)
+st_write(kc_tracts10,"../censusSHP/kc_tracts10.gpkg", append = FALSE)
+st_write(kc_tracts10_shore, "../censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
+st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append= FALSE)
+st_write(kc_tracts10_shore_env_var, "../censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
+```
+
+
