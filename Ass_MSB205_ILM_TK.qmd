@@ -32,10 +32,16 @@ library(readr)
 
 ```{r, message=FALSE}
 kc_house_data <- read_csv("kc_house_data.csv")
+attach(kc_house_data)
 ```
 
 ```{r}
 kc_house_data <- arrange(kc_house_data, desc(date))
+```
+
+```{r}
+kc_house_data <- kc_house_data %>% 
+  distinct(id, .keep_all=TRUE)
 ```
 
 ```{r}
@@ -67,7 +73,7 @@ cbd
 ```{r}
 kc_house_data_sf <- kc_house_data_sf %>%
   mutate(
-    dist_cbd=st_distance(cbd, ., by_element= TRUE),
+    dist_cbd = st_distance(cbd, ., by_element= TRUE),
     dist_cbd_km = set_units(dist_cbd, km)
   )
 ```
@@ -75,7 +81,7 @@ kc_house_data_sf <- kc_house_data_sf %>%
 ## Oppgave 3 WADOH Environmental Health Disparities Index County 
 
 ```{r}
-kc_wadho_map <- here("WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area") %>% 
+kc_wadho_map <- here("../WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area") %>% 
   st_read() %>% 
   st_transform(2926)
 ```
@@ -108,6 +114,7 @@ socio_perc # score social economic determants, low best
 
 ```{r}
 acs_b19101_fam_inc <- read.dbf("../censusSHP/acs_b19101_familyincome.dbf")
+attach(acs_b19101_fam_inc)
 ```
 
 ```{r}
@@ -124,7 +131,7 @@ acs_b19101_fam_inc <- acs_b19101_fam_inc %>%
 ```
 
 ```{r}
-kc_wadho_map_ny <- left_join(
+kc_wadho_map_2 <- left_join(
   acs_b19101_fam_inc,
  st_drop_geometry(kc_wadho_map),
   by = "GEO_ID_TRT"
@@ -144,14 +151,14 @@ kc_tracts10_shore <- here("../censusSHP/tracts10_shore.shp") %>%  st_read() %>%
 
 ```{r}
 kc_tracts10_env_data <- left_join(
-  kc_tracts10, kc_wadho_map_ny,
+  kc_tracts10, kc_wadho_map_2,
   by = "GEO_ID_TRT"
 )
 ```
 
 ```{r}
 kc_tracts10_shore_env_data <- left_join(
-  kc_tracts10_shore,  kc_wadho_map_ny,
+  kc_tracts10_shore,  kc_wadho_map_2,
   by = "GEO_ID_TRT"
 )
 ```
@@ -164,21 +171,33 @@ kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_dat
 
 ```{r}
 st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append=FALSE)
+st_write(kc_tracts10,"../censusSHP/kc_tracts10.gpkg", append = FALSE)
+st_write(kc_tracts10_shore, "../censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
 ```
 
-
-
-
-
+```{r}
+st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append=FALSE)
+```
 
 
 ```{r}
-st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append = FALSE)
-st_write(kc_tracts10,"../censusSHP/kc_tracts10.gpkg", append = FALSE)
-st_write(kc_tracts10_shore, "../censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
-st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append= FALSE)
+st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append = FALSE)
 st_write(kc_tracts10_shore_env_var, "../censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
 ```
+
+## Spatial join 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
