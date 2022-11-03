@@ -166,8 +166,11 @@ kc_tracts10_shore_env_data <- left_join(
 
 ```{r}
 kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
-kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
+kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data) %>% 
+  select(everything(), geometry)
 ```
+
+## Oppgave 4 "Spatial join"
 
 ```{r}
 st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append=FALSE)
@@ -176,22 +179,22 @@ st_write(kc_tracts10_shore, "../censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
 ```
 
 ```{r}
-st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append=FALSE)
+# st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append=FALSE)
+# st_write(kc_tracts10_shore_env_var, "../cenusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
 ```
 
+## Har fått de siste filene fra Kine.
 
 ```{r}
-st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append = FALSE)
-st_write(kc_tracts10_shore_env_var, "../censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
+summary(kc_tracts10_env_data)
 ```
 
-## Spatial join 
+```{r}
+summary(kc_tracts10_shore_env_var)
+```
 
 
-
-
-
-
+### Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10. Ser dere nå hva som går galt med tracts10_shore?
 
 
 
