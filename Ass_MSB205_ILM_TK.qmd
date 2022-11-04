@@ -25,7 +25,6 @@ library(foreign)
 library(readr)
 ```
 
-
 ## Oppgave 1
 
 ## Oppgave 2; House Sales in King County
@@ -55,14 +54,9 @@ kc_house_data_sf <- st_as_sf(kc_house_data,
   st_transform(2926)
 ```
 
-
-Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N
-122°1955V
-I desimaler: 47.609722, -122.333056
+Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I desimaler: 47.609722, -122.333056
 
 ## Kan hende ° dette vil skape problemer når det skal konventeres..
-
-
 
 ```{r}
 cbd <- st_sfc(st_point(c(-122.333056, 47.609722)), crs = 4326) %>%
@@ -78,7 +72,7 @@ kc_house_data_sf <- kc_house_data_sf %>%
   )
 ```
 
-## Oppgave 3 WADOH Environmental Health Disparities Index County 
+## Oppgave 3 WADOH Environmental Health Disparities Index County
 
 ```{r}
 kc_wadho_map <- here("../WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area") %>% 
@@ -143,7 +137,6 @@ kc_tracts10 <- here("../censusSHP/tracts10.shp") %>%  st_read() %>%
   st_transform(2926)
 ```
 
-
 ```{r}
 kc_tracts10_shore <- here("../censusSHP/tracts10_shore.shp") %>%  st_read() %>% 
   st_transform(2926)
@@ -162,7 +155,6 @@ kc_tracts10_shore_env_data <- left_join(
   by = "GEO_ID_TRT"
 )
 ```
-
 
 ```{r}
 kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
@@ -193,14 +185,63 @@ summary(kc_tracts10_env_data)
 summary(kc_tracts10_shore_env_var)
 ```
 
+###Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10. Ser dere nå hva som går galt med tracts10_shore?
 
-### Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10. Ser dere nå hva som går galt med tracts10_shore?
+![Figur1:Kommunegrense](Kart/Skjermbilde_1.png)
 
+![Figur2](Kart/Skjermbilde_2.png)
 
+## Husk å gi bedre navn til figurene!!
 
+```{r}
+kc_houses_env_var <- arrange(kc_houses_env_var, desc(id))
+kc_houses_env_var_omit <- kc_houses_env_var[-c(11997),]
+```
 
+```{r}
+#st_write(kc_houses_env_var_omit, "../censusSHP/kc_houses_env_var_omit.gpkg", append = FALSE)
+```
 
+## Får ikke til å gjøre om objekte til data.
 
+```{r}
+kc_houses_env_var_omit <- kc_houses_env_var_omit %>% 
+  mutate(
+    year_month = substr(date, start = 1, stop = 7)
+  )
+```
 
+```{r}
 
+#st_write(kc_houses_env_var_omit, "censusSHP/kc_houses_env_var_omit.gpkg", append=FALSE)
+```
 
+## Fikk filen fra Sindre
+
+## GeoDa
+
+![](Kart/Skjermbilde_3.png){fig-align="center"}
+
+![]()
+
+![](Kart/Skjermbilde_4.png){fig-align="center"}
+
+## 3 naboer
+
+![små&dyr](Kart/Skjermbilde_5.png){fig-align="center"}
+
+![store&dyr](Kart/Skjermbilde_6.png){fig-align="center"}
+
+![stor&billig](Kart/Skjermbilde_7.png){fig-align="center"}
+
+![små&billig](Kart/Skjermbilde_8.png){fig-align="center"}
+
+## 10 naboer
+
+![små&dyr](Kart/Skjermbilde_9.png){fig-align="center"}
+
+![stor&dyr](Kart/Skjermbilde_10.png){fig-align="center"}
+
+![stor&billig](Kart/Skjermbilde_11.png){fig-align="center"}
+
+![små&billig](Kart/Skjermbilde_12.png){fig-align="center"}
