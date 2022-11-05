@@ -5,7 +5,7 @@ author:
  - "Ingrid-Liv Morkken"
 format: pdf
 editor: visual
-lang: nb-NO
+lang: no-NB
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
@@ -23,6 +23,8 @@ library(units)
 library(car)
 library(foreign)
 library(readr)
+library(dplyr)
+library(huxtable)
 ```
 
 ## Oppgave 1
@@ -31,7 +33,6 @@ library(readr)
 
 ```{r, message=FALSE}
 kc_house_data <- read_csv("kc_house_data.csv")
-attach(kc_house_data)
 ```
 
 ```{r}
@@ -43,9 +44,6 @@ kc_house_data <- kc_house_data %>%
   distinct(id, .keep_all=TRUE)
 ```
 
-```{r}
-dplyr::distinct(kc_house_data)
-```
 
 ```{r}
 kc_house_data_sf <- st_as_sf(kc_house_data,
@@ -56,12 +54,10 @@ kc_house_data_sf <- st_as_sf(kc_house_data,
 
 Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I desimaler: 47.609722, -122.333056
 
-## Kan hende ° dette vil skape problemer når det skal konventeres..
 
 ```{r}
 cbd <- st_sfc(st_point(c(-122.333056, 47.609722)), crs = 4326) %>%
   st_transform(2926)
-cbd
 ```
 
 ```{r}
@@ -75,13 +71,14 @@ kc_house_data_sf <- kc_house_data_sf %>%
 ## Oppgave 3 WADOH Environmental Health Disparities Index County
 
 ```{r}
-kc_wadho_map <- here("../WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area") %>% 
+kc_wadoh_map <- here("../WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area") %>% 
   st_read() %>% 
   st_transform(2926)
 ```
 
+
 ```{r}
-kc_wadoh_map <- kc_wadho_map %>%
+kc_wadoh_map <- kc_wadoh_map %>%
 select(
 GEO_ID_TRT,
 EHD_percen,#Environmental Health Index, weighted score many vars
@@ -108,7 +105,6 @@ socio_perc # score social economic determants, low best
 
 ```{r}
 acs_b19101_fam_inc <- read.dbf("../censusSHP/acs_b19101_familyincome.dbf")
-attach(acs_b19101_fam_inc)
 ```
 
 ```{r}
@@ -125,9 +121,9 @@ acs_b19101_fam_inc <- acs_b19101_fam_inc %>%
 ```
 
 ```{r}
-kc_wadho_map_2 <- left_join(
+kc_wadoh_map_2 <- left_join(
   acs_b19101_fam_inc,
- st_drop_geometry(kc_wadho_map),
+ st_drop_geometry(kc_wadoh_map),
   by = "GEO_ID_TRT"
 )
 ```
@@ -144,22 +140,26 @@ kc_tracts10_shore <- here("../censusSHP/tracts10_shore.shp") %>%  st_read() %>%
 
 ```{r}
 kc_tracts10_env_data <- left_join(
-  kc_tracts10, kc_wadho_map_2,
+  kc_tracts10, kc_wadoh_map_2,
   by = "GEO_ID_TRT"
 )
 ```
 
 ```{r}
 kc_tracts10_shore_env_data <- left_join(
-  kc_tracts10_shore,  kc_wadho_map_2,
+  kc_tracts10_shore,  kc_wadoh_map_2,
   by = "GEO_ID_TRT"
 )
 ```
 
 ```{r}
+summary(kc_tracts10)
+```
+
+
+```{r}
 kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
-kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data) %>% 
-  select(everything(), geometry)
+kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
 ```
 
 ## Oppgave 4 "Spatial join"
@@ -168,14 +168,10 @@ kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_dat
 st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append=FALSE)
 st_write(kc_tracts10,"../censusSHP/kc_tracts10.gpkg", append = FALSE)
 st_write(kc_tracts10_shore, "../censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
+st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append=FALSE)
+st_write(kc_tracts10_shore_env_var, "../censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
 ```
 
-```{r}
-# st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append=FALSE)
-# st_write(kc_tracts10_shore_env_var, "../cenusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
-```
-
-## Har fått de siste filene fra Kine.
 
 ```{r}
 summary(kc_tracts10_env_data)
@@ -199,7 +195,7 @@ kc_houses_env_var_omit <- kc_houses_env_var[-c(11997),]
 ```
 
 ```{r}
-#st_write(kc_houses_env_var_omit, "../censusSHP/kc_houses_env_var_omit.gpkg", append = FALSE)
+st_write(kc_houses_env_var_omit, "../censusSHP/kc_houses_env_var_omit.gpkg", append = FALSE)
 ```
 
 ## Får ikke til å gjøre om objekte til data.
@@ -212,15 +208,11 @@ kc_houses_env_var_omit <- kc_houses_env_var_omit %>%
 ```
 
 ```{r}
-
-#st_write(kc_houses_env_var_omit, "censusSHP/kc_houses_env_var_omit.gpkg", append=FALSE)
+st_write(kc_houses_env_var_omit,"../censusSHP/kc_houses_env_var_omit.gpkg", append=FALSE)
 ```
 
-## Fikk filen fra Sindre
 
-## GeoDa
-
-![](Kart/Skjermbilde_3.png){fig-align="center"}
+## Oppgave 5; GeoDa
 
 ![]()
 
@@ -231,6 +223,8 @@ kc_houses_env_var_omit <- kc_houses_env_var_omit %>%
 ![små&dyr](Kart/Skjermbilde_5.png){fig-align="center"}
 
 ![store&dyr](Kart/Skjermbilde_6.png){fig-align="center"}
+
+![](Kart/Skjermbilde_3.png){fig-align="center"}
 
 ![stor&billig](Kart/Skjermbilde_7.png){fig-align="center"}
 
@@ -245,3 +239,191 @@ kc_houses_env_var_omit <- kc_houses_env_var_omit %>%
 ![stor&billig](Kart/Skjermbilde_11.png){fig-align="center"}
 
 ![små&billig](Kart/Skjermbilde_12.png){fig-align="center"}
+
+## Oppgave 6
+
+### oppgave i. Gi en kort sammenfatning av funnene fra EDA.
+
+
+### Modell 1 
+
+```{r}
+mod1 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + year_month"
+```
+
+
+### Modell 2
+
+```{r}
+mod2 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + year_month + dist_cbd_km + linguist_2 + poverty_pe + POC_percen + unemploy_2 + sen_pop_pe + facilities + wastewater + traffic_pe + diesel + superfund + transporta + housing_pe + ozone + PM25 + toxic_rele + hazardous_ + lead_perce + socio_perc"
+```
+
+### Modell 3
+
+```{r}
+mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + year_month"
+#Denne funksjonen funker ikke hvis jeg har med variablene "high + low"
+```
+
+
+```{r}
+hedon1 <- lm(mod1, data=kc_houses_env_var_omit)
+hedon2 <- lm(mod2, data=kc_houses_env_var_omit)
+hedon3 <- lm(mod3, data=kc_houses_env_var_omit)
+```
+
+
+```{r}
+huxreg("Hedon1" = hedon1, "Hedon2" = hedon2, error_format= "[{statistic}]", note = "{stars}. T statistics in brackets.")
+```
+
+```{r}
+hedon1 %>% 
+  plot()
+```
+
+
+```{r}
+hedon2 %>% 
+  plot()
+```
+
+```{r}
+hedon3 %>% 
+plot()
+```
+
+### Oppgave iii. Rapporter t-verdien som er det vanlige innen økonometri. 
+
+### Oppgave iv. Test og diskuter hvilken modell som er best.
+
+
+## oppgave 7 - Tidsdummy 
+
+```{r}
+hedon1 %>% 
+    linearHypothesis(c("year_month2014-06=0", "year_month2014-07=0",
+                       "year_month2014-08=0", "year_month2014-09=0",
+                       "year_month2014-10=0", "year_month2014-11=0",
+                       "year_month2014-12=0", "year_month2015-01=0",
+                       "year_month2015-02=0", "year_month2015-03=0",
+                       "year_month2015-04=0", "year_month2015-05=0"),
+                     white_adjust = hc3)
+```
+
+
+```{r}
+hedon2 %>% 
+    linearHypothesis(c("year_month2014-06=0", "year_month2014-07=0",
+                       "year_month2014-08=0", "year_month2014-09=0",
+                       "year_month2014-10=0", "year_month2014-11=0",
+                       "year_month2014-12=0", "year_month2015-01=0",
+                       "year_month2015-02=0", "year_month2015-03=0",
+                       "year_month2015-04=0", "year_month2015-05=0"),
+                     white_adjust = hc4)
+```
+
+
+```{r}
+hedon3 %>% 
+    linearHypothesis(c("year_month2014-06=0", "year_month2014-07=0",
+                       "year_month2014-08=0", "year_month2014-09=0",
+                       "year_month2014-10=0", "year_month2014-11=0",
+                       "year_month2014-12=0", "year_month2015-01=0",
+                       "year_month2015-02=0", "year_month2015-03=0",
+                       "year_month2015-04=0", "year_month2015-05=0"),
+                     white_adjust = hc1)
+```
+
+
+## Oppgave 8 - Spatial Regressions 
+
+```{r}
+kc_house_data_2222 <- here("Kart/kc_house_data_2222_Ingrid_og_Thibiga.gpkg") %>% 
+  st_read() %>% 
+  st_transform(2926)
+```
+
+```{r}
+kc_house_data_2222 <- kc_house_data_2222 %>% 
+  mutate(
+    dist_cbd=st_distance(cbd, ., by_element=TRUE),
+    dist_cbd_km = set_units(dist_cbd, km),
+year_month=substr(date, start=1, stop=7))
+```
+
+```{r}
+kc_house_data_2222 <- kc_house_data_2222 %>% 
+  rename(low = inc_fam_low_per,
+         mid=inc_fam_med_per,
+         high=inc_fam_high_per)
+```
+
+```{r}
+hedon3_seed <- lm(mod3, data = kc_house_data_2222)
+```
+
+```{r}
+huxreg("Full" = hedon3, "Seed" = hedon3_seed, error_format="[{statistic}]",
+       note = "{stars}. T statistic in brackets.")
+```
+
+```{r}
+kc_house_data_2222_mat_nb <- knearneigh(kc_house_data_2222, k = 3)
+kc_house_data_nb <- knn2nb(kc_house_data_2222_mat_nb)
+kc_house_data_2222_W <- nb2listw(kc_house_data_nb, style = "W")
+```
+
+```{r}
+kc_house_data_2222_mat_nb10 <- knearneigh(kc_house_data_2222, k = 10)
+kc_house_data_2222_nb10 <- knn2nb(kc_house_data_2222_mat_nb10)
+kc_house_data_2222_W10 <- nb2listw(kc_house_data_2222_nb10)
+```
+
+
+```{r}
+lm.morantest(hedon3_seed, kc_house_data_2222_W)
+lm.morantest(hedon3_seed, kc_house_data_2222_W10)
+```
+
+
+```{r}
+moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W, labels = FALSE, pch = 20, cex = 0.3)
+```
+
+```{r}
+moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W10, labels = FALSE, pch = 20, cex = 0.3)
+```
+
+```{r}
+kc_lagrange_3 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W, test = "all")
+kc_lagrange_3
+```
+
+```{r}
+kc_lagrange_10 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W10, test = "all")
+kc_lagrange_10
+```
+```{r cache=TRUE}
+SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222_W10, listw= kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
+```
+
+```{r}
+SLX_seed <- lmSLX(mod3, data= kc_house_data_2222, listw=kc_house_data_2222_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
+# + low + high
+#Virker uten low og high 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
