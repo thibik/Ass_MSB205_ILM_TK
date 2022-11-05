@@ -274,7 +274,9 @@ hedon3 <- lm(mod3, data=kc_houses_env_var_omit)
 
 
 ```{r}
-huxreg("Hedon1" = hedon1, "Hedon2" = hedon2, error_format= "[{statistic}]", note = "{stars}. T statistics in brackets.")
+huxreg("Hedon1" = hedon1, "Hedon2" = hedon2, "Hedon3" = hedon3,
+       error_format= "[{statistic}]", 
+       note = "{stars}. T statistics in brackets.")
 ```
 
 ```{r}
