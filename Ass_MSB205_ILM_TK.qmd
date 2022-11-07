@@ -243,7 +243,7 @@ st_write(kc_houses_env_var_omit,"../censusSHP/kc_houses_env_var_omit.gpkg", appe
 ## Oppgave 6
 
 ### oppgave i. Gi en kort sammenfatning av funnene fra EDA.
-
+Ved å se på pris i forhold til størrelsen på en bolig, ser en at disse billige og små boliger ligger nær sentrum. 
 
 ### Modell 1 
 
@@ -261,7 +261,7 @@ mod2 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot +
 ### Modell 3
 
 ```{r}
-mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + year_month"
+mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + low + high+EHD_percen + year_month"
 #Denne funksjonen funker ikke hvis jeg har med variablene "high + low"
 ```
 
@@ -269,7 +269,7 @@ mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot +
 ```{r}
 hedon1 <- lm(mod1, data=kc_houses_env_var_omit)
 hedon2 <- lm(mod2, data=kc_houses_env_var_omit)
-hedon3 <- lm(mod3, data=kc_houses_env_var_omit)
+hedon3 <- lm(mod3, data = kc_houses_env_var_omit)
 ```
 
 
