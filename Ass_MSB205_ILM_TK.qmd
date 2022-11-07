@@ -3,7 +3,7 @@ title: "Arbeidskrav i MSB205"
 author: 
  - "Thibiga Kuddyar"
  - "Ingrid-Liv Morkken"
-format: pdf
+format: html
 editor: visual
 lang: no-NB
 ---
@@ -44,7 +44,6 @@ kc_house_data <- kc_house_data %>%
   distinct(id, .keep_all=TRUE)
 ```
 
-
 ```{r}
 kc_house_data_sf <- st_as_sf(kc_house_data,
                              coords= c(x = "long", y = "lat"),
@@ -53,7 +52,6 @@ kc_house_data_sf <- st_as_sf(kc_house_data,
 ```
 
 Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I desimaler: 47.609722, -122.333056
-
 
 ```{r}
 cbd <- st_sfc(st_point(c(-122.333056, 47.609722)), crs = 4326) %>%
@@ -71,11 +69,10 @@ kc_house_data_sf <- kc_house_data_sf %>%
 ## Oppgave 3 WADOH Environmental Health Disparities Index County
 
 ```{r}
-kc_wadoh_map <- here("../WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area") %>% 
+kc_wadoh_map <- here("../Kart/WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area.shp") %>% 
   st_read() %>% 
   st_transform(2926)
 ```
-
 
 ```{r}
 kc_wadoh_map <- kc_wadoh_map %>%
@@ -104,7 +101,7 @@ socio_perc # score social economic determants, low best
 ```
 
 ```{r}
-acs_b19101_fam_inc <- read.dbf("../censusSHP/acs_b19101_familyincome.dbf")
+acs_b19101_fam_inc <- read.dbf("../Kart/censusSHP/acs_b19101_familyincome.dbf")
 ```
 
 ```{r}
@@ -129,12 +126,12 @@ kc_wadoh_map_2 <- left_join(
 ```
 
 ```{r}
-kc_tracts10 <- here("../censusSHP/tracts10.shp") %>%  st_read() %>% 
+kc_tracts10 <- here("../Kart/censusSHP/tracts10.shp") %>%  st_read() %>% 
   st_transform(2926)
 ```
 
 ```{r}
-kc_tracts10_shore <- here("../censusSHP/tracts10_shore.shp") %>%  st_read() %>% 
+kc_tracts10_shore <- here("../Kart/censusSHP/tracts10_shore.shp") %>%  st_read() %>% 
   st_transform(2926)
 ```
 
@@ -156,7 +153,6 @@ kc_tracts10_shore_env_data <- left_join(
 summary(kc_tracts10)
 ```
 
-
 ```{r}
 kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
 kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
@@ -165,13 +161,12 @@ kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_dat
 ## Oppgave 4 "Spatial join"
 
 ```{r}
-st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append=FALSE)
-st_write(kc_tracts10,"../censusSHP/kc_tracts10.gpkg", append = FALSE)
-st_write(kc_tracts10_shore, "../censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
-st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append=FALSE)
-st_write(kc_tracts10_shore_env_var, "../censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
+st_write(kc_house_data, "../Kart/censusSHP/kc_house_data.gpkg", append=FALSE)
+st_write(kc_tracts10,"../Kart/censusSHP/kc_tracts10.gpkg", append = FALSE)
+st_write(kc_tracts10_shore, "../Kart/censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
+st_write(kc_houses_env_var, "../Kart/censusSHP/kc_houses_env_var.gpkg", append=FALSE)
+st_write(kc_tracts10_shore_env_var, "../Kart/censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
 ```
-
 
 ```{r}
 summary(kc_tracts10_env_data)
@@ -181,7 +176,9 @@ summary(kc_tracts10_env_data)
 summary(kc_tracts10_shore_env_var)
 ```
 
-###Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10. Ser dere nå hva som går galt med tracts10_shore?
+###Spørsmål_ii.
+Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10.
+Ser dere nå hva som går galt med tracts10_shore?
 
 ![Figur1:Kommunegrense](Kart/Skjermbilde_1.png)
 
@@ -195,7 +192,7 @@ kc_houses_env_var_omit <- kc_houses_env_var[-c(11997),]
 ```
 
 ```{r}
-st_write(kc_houses_env_var_omit, "../censusSHP/kc_houses_env_var_omit.gpkg", append = FALSE)
+st_write(kc_houses_env_var_omit, "../Kart/censusSHP/kc_houses_env_var_omit.gpkg", append = FALSE)
 ```
 
 ## Får ikke til å gjøre om objekte til data.
@@ -208,9 +205,8 @@ kc_houses_env_var_omit <- kc_houses_env_var_omit %>%
 ```
 
 ```{r}
-st_write(kc_houses_env_var_omit,"../censusSHP/kc_houses_env_var_omit.gpkg", append=FALSE)
+st_write(kc_houses_env_var_omit,"../Kart/censusSHP/kc_houses_env_var_omit.gpkg", append=FALSE)
 ```
-
 
 ## Oppgave 5; GeoDa
 
@@ -244,13 +240,11 @@ st_write(kc_houses_env_var_omit,"../censusSHP/kc_houses_env_var_omit.gpkg", appe
 
 ### oppgave i. Gi en kort sammenfatning av funnene fra EDA.
 
-
-### Modell 1 
+### Modell 1
 
 ```{r}
 mod1 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + year_month"
 ```
-
 
 ### Modell 2
 
@@ -265,13 +259,11 @@ mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot +
 #Denne funksjonen funker ikke hvis jeg har med variablene "high + low"
 ```
 
-
 ```{r}
 hedon1 <- lm(mod1, data=kc_houses_env_var_omit)
 hedon2 <- lm(mod2, data=kc_houses_env_var_omit)
 hedon3 <- lm(mod3, data=kc_houses_env_var_omit)
 ```
-
 
 ```{r}
 huxreg("Hedon1" = hedon1, "Hedon2" = hedon2, "Hedon3" = hedon3,
@@ -284,7 +276,6 @@ hedon1 %>%
   plot()
 ```
 
-
 ```{r}
 hedon2 %>% 
   plot()
@@ -295,12 +286,11 @@ hedon3 %>%
 plot()
 ```
 
-### Oppgave iii. Rapporter t-verdien som er det vanlige innen økonometri. 
+### Oppgave iii. Rapporter t-verdien som er det vanlige innen økonometri.
 
 ### Oppgave iv. Test og diskuter hvilken modell som er best.
 
-
-## oppgave 7 - Tidsdummy 
+## oppgave 7 - Tidsdummy
 
 ```{r}
 hedon1 %>% 
@@ -313,7 +303,6 @@ hedon1 %>%
                      white_adjust = hc3)
 ```
 
-
 ```{r}
 hedon2 %>% 
     linearHypothesis(c("year_month2014-06=0", "year_month2014-07=0",
@@ -324,7 +313,6 @@ hedon2 %>%
                        "year_month2015-04=0", "year_month2015-05=0"),
                      white_adjust = hc4)
 ```
-
 
 ```{r}
 hedon3 %>% 
@@ -337,11 +325,10 @@ hedon3 %>%
                      white_adjust = hc1)
 ```
 
-
-## Oppgave 8 - Spatial Regressions 
+## Oppgave 8 - Spatial Regressions
 
 ```{r}
-kc_house_data_2222 <- here("Kart/kc_house_data_2222_Ingrid_og_Thibiga.gpkg") %>% 
+kc_house_data_2222 <- here("Kart/kc_house_data_2222_Ingrid_og_Thibiga.gpkg") %>%
   st_read() %>% 
   st_transform(2926)
 ```
@@ -355,6 +342,8 @@ year_month=substr(date, start=1, stop=7))
 ```
 
 ```{r}
+#| eval: false
+# ag: inc_fam_low_per etc. finnes ikke i kc_house_data_2222
 kc_house_data_2222 <- kc_house_data_2222 %>% 
   rename(low = inc_fam_low_per,
          mid=inc_fam_med_per,
@@ -382,12 +371,10 @@ kc_house_data_2222_nb10 <- knn2nb(kc_house_data_2222_mat_nb10)
 kc_house_data_2222_W10 <- nb2listw(kc_house_data_2222_nb10)
 ```
 
-
 ```{r}
 lm.morantest(hedon3_seed, kc_house_data_2222_W)
 lm.morantest(hedon3_seed, kc_house_data_2222_W10)
 ```
-
 
 ```{r}
 moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W, labels = FALSE, pch = 20, cex = 0.3)
@@ -406,8 +393,23 @@ kc_lagrange_3
 kc_lagrange_10 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W10, test = "all")
 kc_lagrange_10
 ```
+
+## Making neighbour matrix
+
+```{r}
+SDEM_simp <- errorsarlm(mod3, data = kc_house_data_2222, listw= kc_house_data_2222_W, Durbin = TRUE)
+```
+
+```{r}
+summary(impacts(SDEM_simp))
+```
+
 ```{r cache=TRUE}
-SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222_W10, listw= kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
+SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw= kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
+```
+
+```{r}
+summary(impacts(SDEM_seed))
 ```
 
 ```{r}
@@ -415,17 +417,3 @@ SLX_seed <- lmSLX(mod3, data= kc_house_data_2222, listw=kc_house_data_2222_W, Du
 # + low + high
 #Virker uten low og high 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
