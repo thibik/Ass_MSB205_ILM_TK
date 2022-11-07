@@ -101,14 +101,19 @@ socio_perc # score social economic determants, low best
 ```
 
 ```{r}
-acs_b19101_fam_inc <- read.dbf("../Kart/censusSHP/acs_b19101_familyincome.dbf")
+acs_b19101_fam_inc <- read.dbf("../Kart/censusSHP/acs_b19101_familyincome.dbf", as.is = TRUE)
 ```
 
 ```{r}
 acs_b19101_fam_inc <- acs_b19101_fam_inc %>% 
-  mutate(low = (E19101138 + E19101139 + E19101140 + E19101141 + E19101141 + E19101143)/E19101147) %>% 
+  # ag: her var det noen små feil i variablene
+  mutate(low = (E19101138 + E19101139 + E19101140 + E19101141 + E19101142 + E19101143)/E19101137) %>% 
   mutate(mid = (E19101144 + E19101145 + E19101146 + E19101147 + E19101148 + E19101149)/E19101137) %>% 
   mutate(high = (E19101150 + E19101151 + E19101152 + E19101153)/E19101137)
+# ag: Her total lik 0, så du får NaN. Setter lik 0.2, 0.3 0.5
+# Sjekk om det er noe feil i dataene her. Jeg setter dem
+# bare til noen verdier
+acs_b19101_fam_inc[398, c("low", "mid", "high")] = c(0.2, 0.3, 0.5) 
 ```
 
 ```{r}
@@ -118,9 +123,13 @@ acs_b19101_fam_inc <- acs_b19101_fam_inc %>%
 ```
 
 ```{r}
-kc_wadoh_map_2 <- left_join(
+# dropper kc_wadoh_map_2 legger heller dataene rett
+# til kc_wadoh_map. Rekkefølgene er viktig. Må ha 
+# kartet først og legger de nye dataene
+# acs_b19101_fam_inc til dette
+kc_wadoh_map <- left_join(
+  kc_wadoh_map,
   acs_b19101_fam_inc,
- st_drop_geometry(kc_wadoh_map),
   by = "GEO_ID_TRT"
 )
 ```
@@ -137,25 +146,34 @@ kc_tracts10_shore <- here("../Kart/censusSHP/tracts10_shore.shp") %>%  st_read()
 
 ```{r}
 kc_tracts10_env_data <- left_join(
-  kc_tracts10, kc_wadoh_map_2,
+  kc_tracts10, st_drop_geometry(kc_wadoh_map),
   by = "GEO_ID_TRT"
 )
 ```
 
 ```{r}
 kc_tracts10_shore_env_data <- left_join(
-  kc_tracts10_shore,  kc_wadoh_map_2,
+  kc_tracts10_shore,  st_drop_geometry(kc_wadoh_map),
   by = "GEO_ID_TRT"
 )
 ```
 
 ```{r}
+#| eval: false
+# ag: skrur av for å få mer oversikt
 summary(kc_tracts10)
 ```
 
 ```{r}
-kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
-kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
+kc_houses_env_var <- st_join(
+  kc_house_data_sf,
+  kc_tracts10_env_data   
+  )
+
+kc_tracts10_shore_env_var <- st_join(
+  kc_house_data_sf, 
+  kc_tracts10_shore_env_data
+  )
 ```
 
 ## Oppgave 4 "Spatial join"
@@ -169,10 +187,14 @@ st_write(kc_tracts10_shore_env_var, "../Kart/censusSHP/kc_tracts10_shore_env_var
 ```
 
 ```{r}
+#| eval: false
+# ag: skrur av for å få mer oversikt
 summary(kc_tracts10_env_data)
 ```
 
 ```{r}
+#| eval: false
+# ag: skrur av for å få mer oversikt
 summary(kc_tracts10_shore_env_var)
 ```
 
@@ -240,10 +262,9 @@ st_write(kc_houses_env_var_omit,"../Kart/censusSHP/kc_houses_env_var_omit.gpkg",
 
 ### oppgave i. Gi en kort sammenfatning av funnene fra EDA.
 
-Ved å se på pris i forhold til størrelsen på en bolig, ser en at disse billige og små boliger ligger nær sentrum. 
+Ved å se på pris i forhold til størrelsen på en bolig, ser en at disse billige og små boliger ligger nær sentrum.
 
-### Modell 1 
-
+### Modell 1
 
 ```{r}
 mod1 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + year_month"
@@ -258,13 +279,15 @@ mod2 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot +
 ### Modell 3
 
 ```{r}
-mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + low + high+EHD_percen + year_month"
+mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + low + high + EHD_percen"
 #Denne funksjonen funker ikke hvis jeg har med variablene "high + low"
 ```
 
 ```{r}
-hedon1 <- lm(mod1, data=kc_houses_env_var_omit)
-hedon2 <- lm(mod2, data=kc_houses_env_var_omit)
+# da virker den. Problemet var rekke 398 i tractene. 
+# Antall folk lik 0, så dividerer med 0
+hedon1 <- lm(mod1, data = kc_houses_env_var_omit)
+hedon2 <- lm(mod2, data = kc_houses_env_var_omit)
 hedon3 <- lm(mod3, data = kc_houses_env_var_omit)
 ```
 
@@ -318,6 +341,8 @@ hedon2 %>%
 ```
 
 ```{r}
+#| eval: false
+# ag: her er det et problem
 hedon3 %>% 
     linearHypothesis(c("year_month2014-06=0", "year_month2014-07=0",
                        "year_month2014-08=0", "year_month2014-09=0",
@@ -345,8 +370,6 @@ year_month=substr(date, start=1, stop=7))
 ```
 
 ```{r}
-#| eval: false
-# ag: inc_fam_low_per etc. finnes ikke i kc_house_data_2222
 kc_house_data_2222 <- kc_house_data_2222 %>% 
   rename(low = inc_fam_low_per,
          mid=inc_fam_med_per,
@@ -416,7 +439,12 @@ summary(impacts(SDEM_seed))
 ```
 
 ```{r}
-SLX_seed <- lmSLX(mod3, data= kc_house_data_2222, listw=kc_house_data_2222_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
+SLX_seed <- lmSLX(mod3, data= kc_house_data_2222, listw=kc_house_data_2222_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + low + high + EHD_percen))
 # + low + high
 #Virker uten low og high 
+```
+
+```{r}
+#| echo: false
+# siste
 ```
