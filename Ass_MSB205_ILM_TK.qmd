@@ -66,13 +66,17 @@ kc_house_data_sf <- kc_house_data_sf %>%
   )
 ```
 
+
 ## Oppgave 3 WADOH Environmental Health Disparities Index County
 
+
 ```{r}
-kc_wadoh_map <- here("../Kart/WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area.shp") %>% 
+kc_wadoh_map <- here("Kart/WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area")%>% 
   st_read() %>% 
   st_transform(2926)
+#Dersom jeg bruker .shp får jeg opp feilmelding om at filen ikke finnes i mappen. 
 ```
+
 
 ```{r}
 kc_wadoh_map <- kc_wadoh_map %>%
@@ -101,12 +105,12 @@ socio_perc # score social economic determants, low best
 ```
 
 ```{r}
-acs_b19101_fam_inc <- read.dbf("../Kart/censusSHP/acs_b19101_familyincome.dbf")
+acs_b19101_fam_inc <- read.dbf("../censusSHP/acs_b19101_familyincome.dbf")
 ```
 
 ```{r}
 acs_b19101_fam_inc <- acs_b19101_fam_inc %>% 
-  mutate(low = (E19101138 + E19101139 + E19101140 + E19101141 + E19101141 + E19101143)/E19101147) %>% 
+  mutate(low = (E19101138 + E19101139 + E19101140 + E19101141 + E19101142 + E19101143)/E19101137) %>% 
   mutate(mid = (E19101144 + E19101145 + E19101146 + E19101147 + E19101148 + E19101149)/E19101137) %>% 
   mutate(high = (E19101150 + E19101151 + E19101152 + E19101153)/E19101137)
 ```
@@ -118,20 +122,16 @@ acs_b19101_fam_inc <- acs_b19101_fam_inc %>%
 ```
 
 ```{r}
-kc_wadoh_map_2 <- left_join(
-  acs_b19101_fam_inc,
- st_drop_geometry(kc_wadoh_map),
-  by = "GEO_ID_TRT"
-)
+kc_wadoh_map_2 <- left_join(acs_b19101_fam_inc, st_drop_geometry(kc_wadoh_map), by = "GEO_ID_TRT")
 ```
 
 ```{r}
-kc_tracts10 <- here("../Kart/censusSHP/tracts10.shp") %>%  st_read() %>% 
+kc_tracts10 <- here("../censusSHP/tracts10.shp") %>%  st_read() %>% 
   st_transform(2926)
 ```
 
 ```{r}
-kc_tracts10_shore <- here("../Kart/censusSHP/tracts10_shore.shp") %>%  st_read() %>% 
+kc_tracts10_shore <- here("../censusSHP/tracts10_shore.shp") %>%  st_read() %>% 
   st_transform(2926)
 ```
 
@@ -143,10 +143,7 @@ kc_tracts10_env_data <- left_join(
 ```
 
 ```{r}
-kc_tracts10_shore_env_data <- left_join(
-  kc_tracts10_shore,  kc_wadoh_map_2,
-  by = "GEO_ID_TRT"
-)
+kc_tracts10_shore_env_data <- left_join(kc_tracts10_shore, kc_wadoh_map_2, by= "GEO_ID_TRT")
 ```
 
 ```{r}
@@ -154,18 +151,18 @@ summary(kc_tracts10)
 ```
 
 ```{r}
-kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
+kc_house_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
 kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
 ```
 
 ## Oppgave 4 "Spatial join"
 
 ```{r}
-st_write(kc_house_data, "../Kart/censusSHP/kc_house_data.gpkg", append=FALSE)
-st_write(kc_tracts10,"../Kart/censusSHP/kc_tracts10.gpkg", append = FALSE)
-st_write(kc_tracts10_shore, "../Kart/censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
-st_write(kc_houses_env_var, "../Kart/censusSHP/kc_houses_env_var.gpkg", append=FALSE)
-st_write(kc_tracts10_shore_env_var, "../Kart/censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
+st_write(kc_house_data, "Kart/kc_house_data.gpkg", append = FALSE)
+st_write(kc_tracts10, "Kart/kc_tracts10.gpkg", append = FALSE)
+st_write(kc_tracts10_shore, "Kart/kc_tracts10_shore.gpkg", append = FALSE)
+st_write(kc_house_env_var, "Kart/kc_house_env_var.gpkg", append = FALSE)
+st_write(kc_tracts10_shore_env_var, "Kart/kc_tracts10_shore_env_var.gpkg", append = FALSE)
 ```
 
 ```{r}
@@ -187,25 +184,23 @@ Ser dere nå hva som går galt med tracts10_shore?
 ## Husk å gi bedre navn til figurene!!
 
 ```{r}
-kc_houses_env_var <- arrange(kc_houses_env_var, desc(id))
-kc_houses_env_var_omit <- kc_houses_env_var[-c(11997),]
+kc_house_env_var <- arrange(kc_house_env_var, desc(id))
+kc_house_env_var_omit <- kc_house_env_var[-c(11997),]
 ```
 
 ```{r}
-st_write(kc_houses_env_var_omit, "../Kart/censusSHP/kc_houses_env_var_omit.gpkg", append = FALSE)
+st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALSE)
 ```
 
 ## Får ikke til å gjøre om objekte til data.
 
 ```{r}
-kc_houses_env_var_omit <- kc_houses_env_var_omit %>% 
-  mutate(
-    year_month = substr(date, start = 1, stop = 7)
-  )
+kc_house_env_var_omit <- kc_house_env_var_omit %>% 
+  mutate(year_month = substr(date, start = 1, stop = 7))
 ```
 
 ```{r}
-st_write(kc_houses_env_var_omit,"../Kart/censusSHP/kc_houses_env_var_omit.gpkg", append=FALSE)
+st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALSE)
 ```
 
 ## Oppgave 5; GeoDa
@@ -258,14 +253,13 @@ mod2 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot +
 ### Modell 3
 
 ```{r}
-mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + low + high+EHD_percen + year_month"
-#Denne funksjonen funker ikke hvis jeg har med variablene "high + low"
+mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + low + high + EHD_percen + year_month"
 ```
 
 ```{r}
-hedon1 <- lm(mod1, data=kc_houses_env_var_omit)
-hedon2 <- lm(mod2, data=kc_houses_env_var_omit)
-hedon3 <- lm(mod3, data = kc_houses_env_var_omit)
+hedon1 <- lm(mod1, data= kc_house_env_var_omit)
+hedon2 <- lm(mod2, data=kc_house_env_var_omit)
+hedon3 <- lm(mod3, data = kc_house_env_var_omit)
 ```
 
 ```{r}
@@ -345,12 +339,20 @@ year_month=substr(date, start=1, stop=7))
 ```
 
 ```{r}
+kc_house_data_2222 <- kc_house_data_2222 %>% 
+    rename(low = inc_fam_low_per,
+           mid = inc_fam_med_per,
+           high = inc_fam_high_per)
+```
+
+
+```{r}
 #| eval: false
 # ag: inc_fam_low_per etc. finnes ikke i kc_house_data_2222
-kc_house_data_2222 <- kc_house_data_2222 %>% 
-  rename(low = inc_fam_low_per,
-         mid=inc_fam_med_per,
-         high=inc_fam_high_per)
+#kc_house_data_2222 <- kc_house_data_2222 %>% 
+#  rename(low = inc_fam_low_per,
+#        mid=inc_fam_med_per,
+#       high=inc_fam_high_per)
 ```
 
 ```{r}
@@ -406,6 +408,12 @@ SDEM_simp <- errorsarlm(mod3, data = kc_house_data_2222, listw= kc_house_data_22
 ```{r}
 summary(impacts(SDEM_simp))
 ```
+
+```{r}
+SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W,
+                        Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
+```
+
 
 ```{r cache=TRUE}
 SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw= kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
