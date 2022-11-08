@@ -231,11 +231,10 @@ st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALS
 
 ![små&billig](Kart/Skjermbilde_12.png){fig-align="center"}
 
-## Oppgave 6
+## Oppgave 6; Hedonisk modeller
 
-### oppgave i. Gi en kort sammenfatning av funnene fra EDA.
-
-Ved å se på pris i forhold til størrelsen på en bolig, ser en at disse billige og små boliger ligger nær sentrum. 
+### oppgave i.
+Ved å se på pris i forhold til størrelsen på en bolig, ser en at billige og små boliger ligger nær sentrum. Ser en på de store og dyre boligene er dem plassert på østsiden for Seattle. Små og dyre boliger ligger tett rundt sentrum av Seattle. De store og billige ligger spredt i de landlige delen av King County. 
 
 ### Modell 1 
 
@@ -268,6 +267,8 @@ huxreg("Hedon1" = hedon1, "Hedon2" = hedon2, "Hedon3" = hedon3,
        note = "{stars}. T statistics in brackets.")
 ```
 
+Av disse tre hedonske modellene er *mod2* bedre enn *mod3* med tanke på forklaringskraft. Men velger heller å jobbe med *mod3* ettersom den har en "samlevariabel" som fanger opp miljøfaktorer fra *mod2*.
+
 ```{r}
 hedon1 %>% 
   plot()
@@ -287,7 +288,7 @@ plot()
 
 ### Oppgave iv. Test og diskuter hvilken modell som er best.
 
-## oppgave 7 - Tidsdummy
+## oppgave 7; Tidsdummy
 
 ```{r}
 hedon1 %>% 
@@ -322,7 +323,7 @@ hedon3 %>%
                      white_adjust = hc1)
 ```
 
-## Oppgave 8 - Spatial Regressions
+## Oppgave 8; Spatial Regressions
 
 ```{r}
 kc_house_data_2222 <- here("Kart/kc_house_data_2222_Ingrid_og_Thibiga.gpkg") %>%
@@ -337,6 +338,8 @@ kc_house_data_2222 <- kc_house_data_2222 %>%
     dist_cbd_km = set_units(dist_cbd, km),
 year_month=substr(date, start=1, stop=7))
 ```
+
+Endrer navnet til "low", "mid" og "high"
 
 ```{r}
 kc_house_data_2222 <- kc_house_data_2222 %>% 
@@ -363,6 +366,7 @@ hedon3_seed <- lm(mod3, data = kc_house_data_2222)
 huxreg("Full" = hedon3, "Seed" = hedon3_seed, error_format="[{statistic}]",
        note = "{stars}. T statistic in brackets.")
 ```
+Generer en vektmatrise for k3: 
 
 ```{r}
 kc_house_data_2222_mat_nb <- knearneigh(kc_house_data_2222, k = 3)
@@ -370,11 +374,15 @@ kc_house_data_nb <- knn2nb(kc_house_data_2222_mat_nb)
 kc_house_data_2222_W <- nb2listw(kc_house_data_nb, style = "W")
 ```
 
+Generer en vektmatrise for k10:
+
 ```{r}
 kc_house_data_2222_mat_nb10 <- knearneigh(kc_house_data_2222, k = 10)
 kc_house_data_2222_nb10 <- knn2nb(kc_house_data_2222_mat_nb10)
 kc_house_data_2222_W10 <- nb2listw(kc_house_data_2222_nb10)
 ```
+
+Bruker moran's test av det nye datasettet for å finne ut om vi har uforklarte spatial effekt i residualene.
 
 ```{r}
 lm.morantest(hedon3_seed, kc_house_data_2222_W)
@@ -389,42 +397,205 @@ moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W, labels =
 moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W10, labels = FALSE, pch = 20, cex = 0.3)
 ```
 
+Videre tar vi i bruk lagranges multiplikatortest. 
+
+Først for K=3:
 ```{r}
 kc_lagrange_3 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W, test = "all")
 kc_lagrange_3
 ```
+
+Deretter for K=10:
 
 ```{r}
 kc_lagrange_10 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W10, test = "all")
 kc_lagrange_10
 ```
 
-## Making neighbour matrix
+Ved å se på modellene får vi opp at *LMerr*, *LMlag*, *LMlag*, *RLMerr* og *RLMlag* er signifikante ettersom p-verdien er lavere enn null. AV *RLMerr* og *RMlag* velger vi den med høyest verdi. 
+
+### IV
+
+Spatial Durbin Error Model: 
+
+```{r, cache=TRUE}
+SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
+```
+Spatial Lag of X:
 
 ```{r}
-SDEM_simp <- errorsarlm(mod3, data = kc_house_data_2222, listw= kc_house_data_2222_W, Durbin = TRUE)
+SLX_seed <- lmSLX(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
 ```
+
+Spartial Error Model: 
 
 ```{r}
-summary(impacts(SDEM_simp))
-```
-
-```{r}
-SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W,
-                        Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
-```
-
-
-```{r cache=TRUE}
-SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw= kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
-```
-
-```{r}
-summary(impacts(SDEM_seed))
+SEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin = FALSE)
 ```
 
 ```{r}
-SLX_seed <- lmSLX(mod3, data= kc_house_data_2222, listw=kc_house_data_2222_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
-# + low + high
-#Virker uten low og high 
+summary(impacts(SDEM_seed), zstats = TRUE)
 ```
+
+```{r}
+huxreg("SEM" = SEM_seed, "OLS" = hedon3_seed, error_format = "[{statistic}]", note = "{stars}, T statistic in brackets.")
+```
+
+```{r}
+LR.Sarlm(SDEM_seed, SEM_seed)
+LR.Sarlm(SDEM_seed, SLX_seed)
+```
+
+*SDEM* vil være den beste modelle i dette tilfellet. 
+
+Videre foretar vi en kontrolltest mot *OLS*-modellen.
+
+```{r}
+LR1.Sarlm(SDEM_seed)
+```
+
+```{r}
+Hausman.test(SEM_seed) 
+```
+
+```{r}
+bptest.Sarlm(SEM_seed,studentize = TRUE)
+```
+
+### VI
+
+```{r}
+moran.plot(residuals(hedon3_seed), listw = kc_house_data_2222_W10)
+```
+
+```{r}
+moran.plot(residuals(SDEM_seed), listw = kc_house_data_2222_W10)
+```
+
+Ved å sammenligne figurene av OLS- og SDEM-modellene, ser man *SDEM* fjerne mye av den rommelige effekten. Legg merke til at vi bruker modell 3 som inneholder miljøfaktorer.   
+
+```{r}
+moran.test(residuals(SDEM_seed), listw = kc_house_data_2222_W10)
+```
+
+## Oppgave 9; Utvalg 
+
+```{r}
+set.seed(572)
+kc_house_env_var_omit_2000 <- kc_house_env_var_omit[sample(1:nrow(kc_house_env_var_omit), 2000, replace = FALSE), ]
+```
+
+```{r}
+hedon3_2000 <- lm(mod3, data = kc_house_env_var_omit_2000)
+```
+
+```{r}
+huxreg("Full" = hedon3, "2000 Seed" = hedon3_2000, "2222 Seed" = hedon3_seed, 
+    error_format = "[{statistic}]",
+    note = "{stars}. T statistic in brackets.")
+```
+
+```{r}
+kc_house_data_2000_mat_nb <- knearneigh(kc_house_env_var_omit_2000, k = 3)
+kc_house_data_2000_nb <- knn2nb(kc_house_data_2000_mat_nb)
+kc_house_data_2000_W <- nb2listw(kc_house_data_2000_nb, style = "W")
+```
+
+```{r}
+kc_house_data_2000_mat_nb10 <- knearneigh(kc_house_env_var_omit_2000, k = 10)
+kc_house_data_2000_nb10 <- knn2nb(kc_house_data_2000_mat_nb10)
+kc_house_data_2000_W10 <- nb2listw(kc_house_data_2000_nb10, style = "W")
+```
+
+```{r}
+lm.morantest(hedon3_2000, kc_house_data_2000_W)
+lm.morantest(hedon3_2000, kc_house_data_2000_W10)
+```
+
+```{r}
+moran.plot(log(kc_house_env_var_omit_2000$price), listw= kc_house_data_2000_W, labels = FALSE, pch = 20, cex = 0.3)
+```
+
+```{r}
+moran.plot(log(kc_house_env_var_omit_2000$price), listw = kc_house_data_2000_W10, labels = FALSE, pch = 20, cex = 0.3)
+```
+
+```{r}
+kc_lagrange_3_2000 <- lm.LMtests(hedon3_2000, kc_house_data_2000_W, test = "all")
+kc_lagrange_3_2000
+```
+
+```{r}
+kc_lagrange_10_2000 <- lm.LMtests(hedon3_2000, kc_house_data_2000_W10, test = "all")
+kc_lagrange_10_2000
+```
+
+```{r}
+SDEM_2000 <- errorsarlm(mod3, data = kc_house_env_var_omit_2000, listw = kc_house_data_2000_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
+```
+
+```{r}
+SLX_2000 <- lmSLX(mod3, data = kc_house_env_var_omit_2000, listw = kc_house_data_2000_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
+```
+
+```{r}
+SEM_2000 <- errorsarlm(mod3, data = kc_house_env_var_omit_2000, listw = kc_house_data_2000_W, Durbin = FALSE)
+```
+
+```{r}
+summary(impacts(SDEM_2000), zstats = TRUE)
+```
+
+```{r}
+huxreg("SEM" = SEM_2000, "OLS" = hedon3_2000, error_format = "[{statistic}]", note = "{stars}. T statistic in brackets.")
+```
+
+```{r}
+LR.Sarlm(SDEM_2000, SEM_2000)
+LR.Sarlm(SDEM_2000, SLX_2000)
+```
+
+```{r}
+Hausman.test(SEM_2000)
+```
+
+```{r}
+bptest.Sarlm(SEM_2000, studentize = TRUE)
+```
+
+```{r}
+moran.plot(residuals(hedon3_2000), listw = kc_house_data_2000_W10)
+```
+
+```{r}
+moran.plot(residuals(SDEM_2000), listw = kc_house_data_2000_W10)
+```
+
+```{r}
+moran.test(residuals(SDEM_2000), listw = kc_house_data_2000_W10)
+```
+
+## Oppgave 10; Konklusjon 
+
+Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene som er hentet fra *Kaggle* og de vi har fått tildelt er ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke avviker ikke i stor grad med hverandre.   
+
+```{r, echo=FALSE}
+#Ferdig
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
