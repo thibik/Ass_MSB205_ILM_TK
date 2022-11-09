@@ -133,22 +133,30 @@ eksempel til de utelatte variablene; Dersom boligkjøpere fra
 "overklassen" velger å flytte til et annet område med begrunnelsen om at
 det nye området har bedre luftkvalitet, for og så stemme for et økt
 tilskudd til offentlige skoler, vil det være en skjevhet i den estimerte
-MWTP for luftkvalitet dersom skolen er en utelatt faktor i modellen.
+MWTP for luftkvalitet dersom skolen er en utelatt faktor i modellen. 
 
 ## Oppgave 2; House Sales in King County
+
+## Leser inn CSV-fil
 
 ```{r, message=FALSE}
 kc_house_data <- read_csv("kc_house_data.csv")
 ```
 
+## Sorterer salgene "descending" etter dato
+
 ```{r}
 kc_house_data <- arrange(kc_house_data, desc(date))
 ```
+
+## Velger siste salg hvor vi har multiple salg av samme eiendom
 
 ```{r}
 kc_house_data <- kc_house_data %>% 
   distinct(id, .keep_all=TRUE)
 ```
+
+## Konvertering til sf-objekt + EPSG:2926
 
 ```{r}
 kc_house_data_sf <- st_as_sf(kc_house_data,
@@ -157,17 +165,15 @@ kc_house_data_sf <- st_as_sf(kc_house_data,
   st_transform(2926)
 ```
 
-<<<<<<< HEAD
-Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I
-desimaler: 47.609722, -122.333056
-=======
 Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I desimaler: 47.609722, -122.333056
->>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
+
 
 ```{r}
 cbd <- st_sfc(st_point(c(-122.333056, 47.609722)), crs = 4326) %>%
   st_transform(2926)
 ```
+
+Konvertering og avstandsmåling 
 
 ```{r}
 kc_house_data_sf <- kc_house_data_sf %>%
@@ -185,6 +191,7 @@ kc_wadoh_map <- here("Kart/WADOH_Environmental_Health_Disparities_Index_Calculat
   st_transform(2926)
 #Dersom jeg bruker .shp får jeg opp feilmelding om at filen ikke finnes i mappen. 
 ```
+
 
 ```{r}
 kc_wadoh_map <- kc_wadoh_map %>%
@@ -285,7 +292,11 @@ summary(kc_tracts10_shore_env_var)
 tracts10_shore enn i tracts10. Ser dere nå hva som går galt med
 tracts10_shore?
 
+En observasjon faller utenfor kommunegrensene, noe som blir synlig ved å observere data opp mot kartet i QGIS.
+
 ![Figur1:Kommunegrense](Kart/Skjermbilde_1.png)
+
+
 
 ![Figur2](Kart/Skjermbilde_2.png)
 
@@ -341,11 +352,9 @@ st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALS
 
 ### oppgave i.
 
-<<<<<<< HEAD
-=======
+
 Ved å se på pris i forhold til størrelsen på en bolig, ser en at billige og små boliger ligger nær sentrum. Ser en på de store og dyre boligene er dem plassert på østsiden for Seattle. Små og dyre boliger ligger tett rundt sentrum av Seattle. De store og billige ligger spredt i de landlige delen av King County.
 
->>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
 ### Modell 1
 
 ```{r}
@@ -397,11 +406,8 @@ plot()
 
 ### Oppgave iv. Test og diskuter hvilken modell som er best.
 
-<<<<<<< HEAD
 ## oppgave 7 - Tidsdummy
-=======
-## oppgave 7; Tidsdummy
->>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
+
 
 ```{r}
 hedon1 %>% 
@@ -436,11 +442,7 @@ hedon3 %>%
                      white_adjust = hc1)
 ```
 
-<<<<<<< HEAD
 ## Oppgave 8 - Spatial Regressions
-=======
-## Oppgave 8; Spatial Regressions
->>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
 
 ```{r}
 kc_house_data_2222 <- here("Kart/kc_house_data_2222_Ingrid_og_Thibiga.gpkg") %>%
@@ -499,11 +501,8 @@ kc_house_data_2222_nb10 <- knn2nb(kc_house_data_2222_mat_nb10)
 kc_house_data_2222_W10 <- nb2listw(kc_house_data_2222_nb10)
 ```
 
-<<<<<<< HEAD
-=======
 Bruker moran's test av det nye datasettet for å finne ut om vi har uforklarte spatial effekt i residualene.
 
->>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
 ```{r}
 lm.morantest(hedon3_seed, kc_house_data_2222_W)
 lm.morantest(hedon3_seed, kc_house_data_2222_W10)
@@ -664,8 +663,7 @@ SDEM_2000 <- errorsarlm(mod3, data = kc_house_env_var_omit_2000, listw = kc_hous
 ```{r}
 SLX_2000 <- lmSLX(mod3, data = kc_house_env_var_omit_2000, listw = kc_house_data_2000_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
 ```
-<<<<<<< HEAD
-=======
+
 
 ```{r}
 SEM_2000 <- errorsarlm(mod3, data = kc_house_env_var_omit_2000, listw = kc_house_data_2000_W, Durbin = FALSE)
@@ -715,4 +713,3 @@ Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene so
 ```
 
 ## Reference
->>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
