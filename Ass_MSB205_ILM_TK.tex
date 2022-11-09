@@ -4,9 +4,7 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-  letterpaper,
-  DIV=11,
-  numbers=noendperiod]{scrartcl}
+]{report}
 
 \usepackage{amsmath,amssymb}
 \usepackage{lmodern}
@@ -129,7 +127,6 @@
 \usepackage{wrapfig}
 \usepackage{adjustbox}
 \usepackage{hyperref}
-\KOMAoption{captions}{tableheading}
 \makeatletter
 \makeatother
 \makeatletter
@@ -213,17 +210,17 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, sharp corners, breakable, enhanced, interior hidden, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, breakable, frame hidden, enhanced, sharp corners, interior hidden]}{\end{tcolorbox}}\fi
 
 \begin{verbatim}
 Warning: package 'huxtable' was built under R version 4.2.2
 \end{verbatim}
 
 \hypertarget{oppgave-1}{%
-\subsection{Oppgave 1}\label{oppgave-1}}
+\section{Oppgave 1}\label{oppgave-1}}
 
 \hypertarget{oppgave-2-house-sales-in-king-county}{%
-\subsection{Oppgave 2; House Sales in King
+\section{Oppgave 2; House Sales in King
 County}\label{oppgave-2-house-sales-in-king-county}}
 
 \begin{Shaded}
@@ -275,7 +272,7 @@ desimaler: 47.609722, -122.333056
 \end{Shaded}
 
 \hypertarget{oppgave-3-wadoh-environmental-health-disparities-index-county}{%
-\subsection{Oppgave 3 WADOH Environmental Health Disparities Index
+\section{Oppgave 3 WADOH Environmental Health Disparities Index
 County}\label{oppgave-3-wadoh-environmental-health-disparities-index-county}}
 
 \begin{Shaded}
@@ -467,7 +464,7 @@ Projected CRS: NAD83(HARN) / Washington North (ftUS)
 \end{Shaded}
 
 \hypertarget{oppgave-4-spatial-join}{%
-\subsection{Oppgave 4 ``Spatial join''}\label{oppgave-4-spatial-join}}
+\section{Oppgave 4 ``Spatial join''}\label{oppgave-4-spatial-join}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -808,7 +805,7 @@ tracts10\_shore?
 \end{figure}
 
 \hypertarget{husk-uxe5-gi-bedre-navn-til-figurene}{%
-\subsection{Husk å gi bedre navn til
+\section{Husk å gi bedre navn til
 figurene!!}\label{husk-uxe5-gi-bedre-navn-til-figurene}}
 
 \begin{Shaded}
@@ -832,7 +829,7 @@ Writing 21435 features with 65 fields and geometry type Point.
 \end{verbatim}
 
 \hypertarget{fuxe5r-ikke-til-uxe5-gjuxf8re-om-objekte-til-data.}{%
-\subsection{Får ikke til å gjøre om objekte til
+\section{Får ikke til å gjøre om objekte til
 data.}\label{fuxe5r-ikke-til-uxe5-gjuxf8re-om-objekte-til-data.}}
 
 \begin{Shaded}
@@ -856,7 +853,7 @@ Writing 21435 features with 66 fields and geometry type Point.
 \end{verbatim}
 
 \hypertarget{oppgave-5-geoda}{%
-\subsection{Oppgave 5; GeoDa}\label{oppgave-5-geoda}}
+\section{Oppgave 5; GeoDa}\label{oppgave-5-geoda}}
 
 \includegraphics{.pdf}
 
@@ -869,7 +866,7 @@ Writing 21435 features with 66 fields and geometry type Point.
 \end{figure}
 
 \hypertarget{naboer}{%
-\subsection{3 naboer}\label{naboer}}
+\section{3 naboer}\label{naboer}}
 
 \begin{figure}
 
@@ -920,7 +917,7 @@ Writing 21435 features with 66 fields and geometry type Point.
 \end{figure}
 
 \hypertarget{naboer-1}{%
-\subsection{10 naboer}\label{naboer-1}}
+\section{10 naboer}\label{naboer-1}}
 
 \begin{figure}
 
@@ -963,11 +960,11 @@ Writing 21435 features with 66 fields and geometry type Point.
 \end{figure}
 
 \hypertarget{oppgave-6-hedonisk-modeller}{%
-\subsection{Oppgave 6; Hedonisk
+\section{Oppgave 6; Hedonisk
 modeller}\label{oppgave-6-hedonisk-modeller}}
 
 \hypertarget{oppgave-i.}{%
-\subsubsection{oppgave i.}\label{oppgave-i.}}
+\subsection{oppgave i.}\label{oppgave-i.}}
 
 Ved å se på pris i forhold til størrelsen på en bolig, ser en at billige
 og små boliger ligger nær sentrum. Ser en på de store og dyre boligene
@@ -976,7 +973,7 @@ rundt sentrum av Seattle. De store og billige ligger spredt i de
 landlige delen av King County.
 
 \hypertarget{modell-1}{%
-\subsubsection{Modell 1}\label{modell-1}}
+\subsection{Modell 1}\label{modell-1}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -985,7 +982,7 @@ landlige delen av King County.
 \end{Shaded}
 
 \hypertarget{modell-2}{%
-\subsubsection{Modell 2}\label{modell-2}}
+\subsection{Modell 2}\label{modell-2}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -994,7 +991,7 @@ landlige delen av King County.
 \end{Shaded}
 
 \hypertarget{modell-3}{%
-\subsubsection{Modell 3}\label{modell-3}}
+\subsection{Modell 3}\label{modell-3}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2096,15 +2093,15 @@ ettersom den har en ``samlevariabel'' som fanger opp miljøfaktorer fra
 \end{figure}
 
 \hypertarget{oppgave-iii.-rapporter-t-verdien-som-er-det-vanlige-innen-uxf8konometri.}{%
-\subsubsection{Oppgave iii. Rapporter t-verdien som er det vanlige innen
+\subsection{Oppgave iii. Rapporter t-verdien som er det vanlige innen
 økonometri.}\label{oppgave-iii.-rapporter-t-verdien-som-er-det-vanlige-innen-uxf8konometri.}}
 
 \hypertarget{oppgave-iv.-test-og-diskuter-hvilken-modell-som-er-best.}{%
-\subsubsection{Oppgave iv. Test og diskuter hvilken modell som er
+\subsection{Oppgave iv. Test og diskuter hvilken modell som er
 best.}\label{oppgave-iv.-test-og-diskuter-hvilken-modell-som-er-best.}}
 
 \hypertarget{oppgave-7-tidsdummy}{%
-\subsection{oppgave 7; Tidsdummy}\label{oppgave-7-tidsdummy}}
+\section{oppgave 7; Tidsdummy}\label{oppgave-7-tidsdummy}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2311,7 +2308,7 @@ best.}\label{oppgave-iv.-test-og-diskuter-hvilken-modell-som-er-best.}}
  
 
 \hypertarget{oppgave-8-spatial-regressions}{%
-\subsection{Oppgave 8; Spatial
+\section{Oppgave 8; Spatial
 Regressions}\label{oppgave-8-spatial-regressions}}
 
 \begin{Shaded}
@@ -3154,7 +3151,7 @@ p-verdien er lavere enn null. AV \emph{RLMerr} og \emph{RMlag} velger vi
 den med høyest verdi.
 
 \hypertarget{iv}{%
-\subsubsection{IV}\label{iv}}
+\subsection{IV}\label{iv}}
 
 Spatial Durbin Error Model:
 
@@ -4000,7 +3997,7 @@ BP = 292.82, df = 30, p-value < 2.2e-16
 \end{verbatim}
 
 \hypertarget{vi}{%
-\subsubsection{VI}\label{vi}}
+\subsection{VI}\label{vi}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -4055,7 +4052,7 @@ Moran I statistic       Expectation          Variance
 \end{verbatim}
 
 \hypertarget{oppgave-9-utvalg}{%
-\subsection{Oppgave 9; Utvalg}\label{oppgave-9-utvalg}}
+\section{Oppgave 9; Utvalg}\label{oppgave-9-utvalg}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -5798,17 +5795,16 @@ Moran I statistic       Expectation          Variance
 \end{verbatim}
 
 \hypertarget{oppgave-10-konklusjon}{%
-\subsection{Oppgave 10; Konklusjon}\label{oppgave-10-konklusjon}}
+\section{Oppgave 10; Konklusjon}\label{oppgave-10-konklusjon}}
 
 Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at
-dataene som er hentet fra \emph{Kaggle} og de vi har fått tildelt er
-ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke
-avviker ikke i stor grad med hverandre.
+dataene som er hentet fra \emph{Kaggle}\footnote{Data provided by
+  permission of King County.} og de vi har fått tildelt er ganske like.
+Vi ser i tillegg at tilfeldig og definert utvalg ikke avviker ikke i
+stor grad med hverandre.
 
 \hypertarget{reference}{%
-\subsection{Reference}\label{reference}}
-
-\footnote{Data provided by permission of King County.}
+\section{Reference}\label{reference}}
 
 
 

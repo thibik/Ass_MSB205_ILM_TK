@@ -3,7 +3,9 @@ title: "Arbeidskrav i MSB205"
 author: 
  - "Thibiga Kuddyar"
  - "Ingrid-Liv Morkken"
-format: pdf
+format:
+  pdf: 
+    documentclass: report
 editor: visual
 lang: no-NB
 ---
@@ -574,14 +576,12 @@ moran.test(residuals(SDEM_2000), listw = kc_house_data_2000_W10)
 
 ## Oppgave 10; Konklusjon
 
-Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene som er hentet fra *Kaggle* og de vi har fått tildelt er ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke avviker ikke i stor grad med hverandre.
+Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene som er hentet fra *Kaggle*[^1] og de vi har fått tildelt er ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke avviker ikke i stor grad med hverandre.
+
+[^1]: Data provided by permission of King County.
 
 ```{r, echo=FALSE}
 #Ferdig
 ```
 
 ## Reference
-
-[^1]: Data provided by permission of King County.
-
-
