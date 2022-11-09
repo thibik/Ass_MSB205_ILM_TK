@@ -8,6 +8,7 @@ format:
     documentclass: report
 editor: visual
 lang: no-NB
+bibliography: references.bib
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
@@ -39,7 +40,7 @@ boligmarket, nærmere bestemt "marginal willingness to pay (MWTP)".
 Modellen tar utgangspunkt i at boligkjøpere velger bolig basert på to
 ulike faktorer; "stedsspesifikke fasiliteter" som innebærer blant annet
 luftkvalitet, utdanning o.l og "boligattributter" som for eksempel
-antall soverom og bad.
+antall soverom og bad [@bishop2020].
 
 ### Rosen sitt første og andre steg
 
@@ -55,7 +56,7 @@ område enn kun ett. Det er likevel viktig å tilfredstille "law of one
 price function", hvor alternativ én dermed fungerer bedre i definisjonen
 av et marked. Ved å velge alternativ én vil en unngå å eksempelvis måtte
 hensynta flyttekostnader, jobbendring, skattekostnader og levekostnader
-som følge av flytting på tvers av metropoler.
+som følge av flytting på tvers av metropoler [@bishop2020].
 
 Videre, etter markedet er klart definert starter innsamlingen av data -
 Rosen sitt andre steg. Det mest ønskelige for innsamling av data er å
@@ -75,7 +76,7 @@ investerings- og eiendomsfirma og tvangssalg utelatt, ettersom det kan
 forekomme at kvalitetsdetaljer og utfordringer ved boligen ikke er
 inkludert som en del av salgsrapporten. Det er også nødvendig å
 ekskludere data-avvik som eksempelvis at en bolig har flere hundre
-soverom.
+soverom [@bishop2020].
 
 ### MWTP og boligmarkedet som ett meteropolområde
 
@@ -86,7 +87,7 @@ romlige variasjonen av fasilitetene. Denne modellen kan skape hodebry
 for forskerne fordi dataen kan være varierende og ujevne, som videre kan
 gjøre det noe utfordrende å jobbe med. Dermed må forskerne evne å plukke
 ut hvilke målinger som best reflekterer det som ønskes svar på, dette må
-også være klart definert.
+også være klart definert [@bishop2020].
 
 Det er ikke alltid salgspriser og data knyttet til eneboliger er
 tilgjengelig, men det finnes alternativer hvor forskerne gjerne heller
@@ -98,7 +99,7 @@ betingelsene i leiekontrakten kan være vanskelig å måle, hvor
 eksempelvis det ikke er intuitivt om utleier eller leietaker eksempelvis
 betaler for vedlikehold. Det kan også være utfordende å vurdere om
 kortitds-leietakere har samme behov og preferanser som eneboligkjøpere
-med tanke på område-fasilitene.
+med tanke på område-fasilitene [@bishop2020].
 
 Data knyttet til anslåtte priser kan ofte være påvirket av selgers egne
 antakelser knyttet til boligverdien - en estimering som gjerne er gjort
@@ -107,7 +108,7 @@ utenforstående eiendomsfirma/megler, men det er likevel foretrukket å
 benytte boligens faktiske prisverdi og ikke en anslått verdi.
 Utfordringen de anslåtte prisene omhandler er målefeil knyttet opp mot
 fasiliteter (bolig, nabolag, demografi), som kan føre til en skjevhet i
-prisestimatet.
+prisestimatet [@bishop2020].
 
 Den hedoniske modellen kan som nevnt også benytte tomtesalg som et
 alternativ til eneboligsalg. Tomtesalg kan si noe om prisvariasjonen opp
@@ -115,13 +116,13 @@ mot karakteristikken av området. Problemet med tomtesalg er at det er
 noen faktorer som her også kan skape skjevfordeling i prisestimatet,
 fordi det ikke er observasjonsgrunnlag. Dette innebærer blant annet
 vanntilførsel og kloakk, samt bestemte lover for området og inndeling av
-soner.
+soner [@bishop2020].
 
 Sist, kan romlige aggregerte data benyttes - men her er det utfordringer
 knyttet til median ettersom at medianprisene kan avvike fra det
 generelle prisnivået. Dette gjør at hedoniske prisregresjoner som
 inkluderer medianer vil være skjeve ved starten av målingen - som videre
-kan ha utslag på MWTP.
+kan ha utslag på MWTP [@bishop2020].
 
 Det er viktig å unngå de utelatte variablene når den hedoniske
 prismodellen skal estimeres på bakgrunn av to variabler. Den første går
@@ -133,7 +134,8 @@ eksempel til de utelatte variablene; Dersom boligkjøpere fra
 "overklassen" velger å flytte til et annet område med begrunnelsen om at
 det nye området har bedre luftkvalitet, for og så stemme for et økt
 tilskudd til offentlige skoler, vil det være en skjevhet i den estimerte
-MWTP for luftkvalitet dersom skolen er en utelatt faktor i modellen.
+MWTP for luftkvalitet dersom skolen er en utelatt faktor i modellen
+[@bishop2020].
 
 ## Oppgave 2; House Sales in King County
 
