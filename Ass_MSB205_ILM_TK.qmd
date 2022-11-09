@@ -29,6 +29,110 @@ library(huxtable)
 
 ## Oppgave 1
 
+### Bishop et. al (2020) artikkel
+
+Artikkelen Bishop et al. (2020) tar for seg bruken av hedoniske modeller
+for å videre måle betalingsvilligheten for miljøkvalitet i et
+boligmarket, nærmere bestemt "marginal willingness to pay (MWTP)".
+Modellen tar utgangspunkt i at boligkjøpere velger bolig basert på to
+ulike faktorer; "stedsspesifikke fasiliteter" som innebærer blant annet
+luftkvalitet, utdanning o.l og "boligattributter" som for eksempel
+antall soverom og bad.
+
+### Rosen sitt første og andre steg
+
+Rosen (1974) sitt første steg innebærer å definere det gitte markedet
+for å videre kunne tilfredstille prinsippet om "law of one price
+function". Dette innebærer at i et marked, vil hus som er identiske
+selges for samme pris. Betingelsene i prinsippet kan variere over tid
+ettersom flyttekostander, informasjon og institusjoner kan endres. Selve
+markedet kan defineres på ulike måter, hvor den vanligste definisjonen
+er å se markedet som helhet, som et storbyområde over tid. Alternativt
+kan markedet defineres ved å se på data over tid, og over et større
+område enn kun ett. Det er likevel viktig å tilfredstille "law of one
+price function", hvor alternativ én dermed fungerer bedre i definisjonen
+av et marked. Ved å velge alternativ én vil en unngå å eksempelvis måtte
+hensynta flyttekostnader, jobbendring, skattekostnader og levekostnader
+som følge av flytting på tvers av metropoler.
+
+Videre, etter markedet er klart definert starter innsamlingen av data -
+Rosen sitt andre steg. Det mest ønskelige for innsamling av data er å
+oppnå vilkårlig utvalg. De hedoniske boligverdi-studiene som nettopp
+oppnår den ønskelige data-innsamlingen, har oftest et fokus på
+eneboliger. I noen land, eksempelvis Norge og USA, blir kjøp og salg av
+bolig tinglyst noe som gjør boligtransaksjoner tilgjengelig for
+offentligheten. Dette betyr også tilgjengelighet for forskere, hvor en
+lettere kan få oversikt over eneboligsalg og også vurdere salgene i
+gitte tidsrom. Det er nærliggende å tro at den innsamlede og
+tilgjengelige dataen inneholder inntastningsfeil. Det er dermed viktig å
+luke ut og identifisere de potensielle feilene, for å oppnå best mulig
+kvalitet på data samt redusere feil. De feilene som oftest oppstår er
+ekskludering av data når kjøper og selger har likt etternavn, hvor
+slektskap kan være sannsynlig. Videre blir data for boliger kjøpt av
+investerings- og eiendomsfirma og tvangssalg utelatt, ettersom det kan
+forekomme at kvalitetsdetaljer og utfordringer ved boligen ikke er
+inkludert som en del av salgsrapporten. Det er også nødvendig å
+ekskludere data-avvik som eksempelvis at en bolig har flere hundre
+soverom.
+
+### MWTP og boligmarkedet som ett meteropolområde
+
+Forskere som benytter den hedoniske modellen må redegjøre for kjøpernes
+tanker rundt de tilgjengelige fasiliterer i det gitte boligområdet til
+huset. Dette innebærer videre å etablere en modell som evner å måle den
+romlige variasjonen av fasilitetene. Denne modellen kan skape hodebry
+for forskerne fordi dataen kan være varierende og ujevne, som videre kan
+gjøre det noe utfordrende å jobbe med. Dermed må forskerne evne å plukke
+ut hvilke målinger som best reflekterer det som ønskes svar på, dette må
+også være klart definert.
+
+Det er ikke alltid salgspriser og data knyttet til eneboliger er
+tilgjengelig, men det finnes alternativer hvor forskerne gjerne heller
+benytter data for leiepriser, "anslåtte priser" (predicted), romlige
+aggregerte data og tomtesalg. Selv om det finnes alternativer, fører
+alternativene likevel med seg en del utfordirnger. Det å bruke data for
+leiepriser er i utgangspunktet et godt alternativ til eneboliger - men
+betingelsene i leiekontrakten kan være vanskelig å måle, hvor
+eksempelvis det ikke er intuitivt om utleier eller leietaker eksempelvis
+betaler for vedlikehold. Det kan også være utfordende å vurdere om
+kortitds-leietakere har samme behov og preferanser som eneboligkjøpere
+med tanke på område-fasilitene.
+
+Data knyttet til anslåtte priser kan ofte være påvirket av selgers egne
+antakelser knyttet til boligverdien - en estimering som gjerne er gjort
+gjennom spørreundersøkelser. Anslått pris kan også bli satt av
+utenforstående eiendomsfirma/megler, men det er likevel foretrukket å
+benytte boligens faktiske prisverdi og ikke en anslått verdi.
+Utfordringen de anslåtte prisene omhandler er målefeil knyttet opp mot
+fasiliteter (bolig, nabolag, demografi), som kan føre til en skjevhet i
+prisestimatet.
+
+Den hedoniske modellen kan som nevnt også benytte tomtesalg som et
+alternativ til eneboligsalg. Tomtesalg kan si noe om prisvariasjonen opp
+mot karakteristikken av området. Problemet med tomtesalg er at det er
+noen faktorer som her også kan skape skjevfordeling i prisestimatet,
+fordi det ikke er observasjonsgrunnlag. Dette innebærer blant annet
+vanntilførsel og kloakk, samt bestemte lover for området og inndeling av
+soner.
+
+Sist, kan romlige aggregerte data benyttes - men her er det utfordringer
+knyttet til median ettersom at medianprisene kan avvike fra det
+generelle prisnivået. Dette gjør at hedoniske prisregresjoner som
+inkluderer medianer vil være skjeve ved starten av målingen - som videre
+kan ha utslag på MWTP.
+
+Det er viktig å unngå de utelatte variablene når den hedoniske
+prismodellen skal estimeres på bakgrunn av to variabler. Den første går
+ut på at det vil være usannsynlig at forskere kan inkludere alle
+preferanser kjøpere har knyttet til fasiliteter. Det andre er den
+skjevfordelingen som oppstår når noen av kjøperne sine preferanser ikke
+er inkludert eller i modellen. Bishop et. al (2020) knytter følgende
+eksempel til de utelatte variablene; Dersom boligkjøpere fra
+"overklassen" velger å flytte til et annet område med begrunnelsen om at
+det nye området har bedre luftkvalitet, for og så stemme for et økt
+tilskudd til offentlige skoler, vil det være en skjevhet i den estimerte
+MWTP for luftkvalitet dersom skolen er en utelatt faktor i modellen.
+
 ## Oppgave 2; House Sales in King County
 
 ```{r, message=FALSE}
@@ -44,7 +148,6 @@ kc_house_data <- kc_house_data %>%
   distinct(id, .keep_all=TRUE)
 ```
 
-
 ```{r}
 kc_house_data_sf <- st_as_sf(kc_house_data,
                              coords= c(x = "long", y = "lat"),
@@ -52,8 +155,8 @@ kc_house_data_sf <- st_as_sf(kc_house_data,
   st_transform(2926)
 ```
 
-Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I desimaler: 47.609722, -122.333056
-
+Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I
+desimaler: 47.609722, -122.333056
 
 ```{r}
 cbd <- st_sfc(st_point(c(-122.333056, 47.609722)), crs = 4326) %>%
@@ -75,7 +178,6 @@ kc_wadoh_map <- here("../WADOH_Environmental_Health_Disparities_Index_Calculated
   st_read() %>% 
   st_transform(2926)
 ```
-
 
 ```{r}
 kc_wadoh_map <- kc_wadoh_map %>%
@@ -156,7 +258,6 @@ kc_tracts10_shore_env_data <- left_join(
 summary(kc_tracts10)
 ```
 
-
 ```{r}
 kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
 kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
@@ -172,7 +273,6 @@ st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append=FALSE)
 st_write(kc_tracts10_shore_env_var, "../censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
 ```
 
-
 ```{r}
 summary(kc_tracts10_env_data)
 ```
@@ -181,7 +281,9 @@ summary(kc_tracts10_env_data)
 summary(kc_tracts10_shore_env_var)
 ```
 
-###Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10. Ser dere nå hva som går galt med tracts10_shore?
+###Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i
+tracts10_shore enn i tracts10. Ser dere nå hva som går galt med
+tracts10_shore?
 
 ![Figur1:Kommunegrense](Kart/Skjermbilde_1.png)
 
@@ -210,7 +312,6 @@ kc_houses_env_var_omit <- kc_houses_env_var_omit %>%
 ```{r}
 st_write(kc_houses_env_var_omit,"../censusSHP/kc_houses_env_var_omit.gpkg", append=FALSE)
 ```
-
 
 ## Oppgave 5; GeoDa
 
@@ -244,13 +345,11 @@ st_write(kc_houses_env_var_omit,"../censusSHP/kc_houses_env_var_omit.gpkg", appe
 
 ### oppgave i. Gi en kort sammenfatning av funnene fra EDA.
 
-
-### Modell 1 
+### Modell 1
 
 ```{r}
 mod1 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + year_month"
 ```
-
 
 ### Modell 2
 
@@ -265,13 +364,11 @@ mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot +
 #Denne funksjonen funker ikke hvis jeg har med variablene "high + low"
 ```
 
-
 ```{r}
 hedon1 <- lm(mod1, data=kc_houses_env_var_omit)
 hedon2 <- lm(mod2, data=kc_houses_env_var_omit)
 hedon3 <- lm(mod3, data=kc_houses_env_var_omit)
 ```
-
 
 ```{r}
 huxreg("Hedon1" = hedon1, "Hedon2" = hedon2, "Hedon3" = hedon3,
@@ -284,7 +381,6 @@ hedon1 %>%
   plot()
 ```
 
-
 ```{r}
 hedon2 %>% 
   plot()
@@ -295,12 +391,11 @@ hedon3 %>%
 plot()
 ```
 
-### Oppgave iii. Rapporter t-verdien som er det vanlige innen økonometri. 
+### Oppgave iii. Rapporter t-verdien som er det vanlige innen økonometri.
 
 ### Oppgave iv. Test og diskuter hvilken modell som er best.
 
-
-## oppgave 7 - Tidsdummy 
+## oppgave 7 - Tidsdummy
 
 ```{r}
 hedon1 %>% 
@@ -313,7 +408,6 @@ hedon1 %>%
                      white_adjust = hc3)
 ```
 
-
 ```{r}
 hedon2 %>% 
     linearHypothesis(c("year_month2014-06=0", "year_month2014-07=0",
@@ -324,7 +418,6 @@ hedon2 %>%
                        "year_month2015-04=0", "year_month2015-05=0"),
                      white_adjust = hc4)
 ```
-
 
 ```{r}
 hedon3 %>% 
@@ -337,8 +430,7 @@ hedon3 %>%
                      white_adjust = hc1)
 ```
 
-
-## Oppgave 8 - Spatial Regressions 
+## Oppgave 8 - Spatial Regressions
 
 ```{r}
 kc_house_data_2222 <- here("Kart/kc_house_data_2222_Ingrid_og_Thibiga.gpkg") %>% 
@@ -382,12 +474,10 @@ kc_house_data_2222_nb10 <- knn2nb(kc_house_data_2222_mat_nb10)
 kc_house_data_2222_W10 <- nb2listw(kc_house_data_2222_nb10)
 ```
 
-
 ```{r}
 lm.morantest(hedon3_seed, kc_house_data_2222_W)
 lm.morantest(hedon3_seed, kc_house_data_2222_W10)
 ```
-
 
 ```{r}
 moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W, labels = FALSE, pch = 20, cex = 0.3)
@@ -406,6 +496,7 @@ kc_lagrange_3
 kc_lagrange_10 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W10, test = "all")
 kc_lagrange_10
 ```
+
 ```{r cache=TRUE}
 SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222_W10, listw= kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
 ```
@@ -415,17 +506,3 @@ SLX_seed <- lmSLX(mod3, data= kc_house_data_2222, listw=kc_house_data_2222_W, Du
 # + low + high
 #Virker uten low og high 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
