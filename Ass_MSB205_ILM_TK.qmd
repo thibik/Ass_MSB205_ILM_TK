@@ -6,7 +6,6 @@ author:
 format: pdf
 editor: visual
 lang: no-NB
-
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
@@ -67,9 +66,7 @@ kc_house_data_sf <- kc_house_data_sf %>%
   )
 ```
 
-
 ## Oppgave 3 WADOH Environmental Health Disparities Index County
-
 
 ```{r}
 kc_wadoh_map <- here("Kart/WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area")%>% 
@@ -77,7 +74,6 @@ kc_wadoh_map <- here("Kart/WADOH_Environmental_Health_Disparities_Index_Calculat
   st_transform(2926)
 #Dersom jeg bruker .shp får jeg opp feilmelding om at filen ikke finnes i mappen. 
 ```
-
 
 ```{r}
 kc_wadoh_map <- kc_wadoh_map %>%
@@ -174,9 +170,7 @@ summary(kc_tracts10_env_data)
 summary(kc_tracts10_shore_env_var)
 ```
 
-###Spørsmål_ii.
-Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10.
-Ser dere nå hva som går galt med tracts10_shore?
+###Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10. Ser dere nå hva som går galt med tracts10_shore?
 
 ![Figur1:Kommunegrense](Kart/Skjermbilde_1.png)
 
@@ -235,10 +229,10 @@ st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALS
 ## Oppgave 6; Hedonisk modeller
 
 ### oppgave i.
-Ved å se på pris i forhold til størrelsen på en bolig, ser en at billige og små boliger ligger nær sentrum. Ser en på de store og dyre boligene er dem plassert på østsiden for Seattle. Små og dyre boliger ligger tett rundt sentrum av Seattle. De store og billige ligger spredt i de landlige delen av King County. 
 
-### Modell 1 
+Ved å se på pris i forhold til størrelsen på en bolig, ser en at billige og små boliger ligger nær sentrum. Ser en på de store og dyre boligene er dem plassert på østsiden for Seattle. Små og dyre boliger ligger tett rundt sentrum av Seattle. De store og billige ligger spredt i de landlige delen av King County.
 
+### Modell 1
 
 ```{r}
 mod1 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + year_month"
@@ -349,7 +343,6 @@ kc_house_data_2222 <- kc_house_data_2222 %>%
            high = inc_fam_high_per)
 ```
 
-
 ```{r}
 #| eval: false
 # ag: inc_fam_low_per etc. finnes ikke i kc_house_data_2222
@@ -367,7 +360,8 @@ hedon3_seed <- lm(mod3, data = kc_house_data_2222)
 huxreg("Full" = hedon3, "Seed" = hedon3_seed, error_format="[{statistic}]",
        note = "{stars}. T statistic in brackets.")
 ```
-Generer en vektmatrise for k3: 
+
+Generer en vektmatrise for k3:
 
 ```{r}
 kc_house_data_2222_mat_nb <- knearneigh(kc_house_data_2222, k = 3)
@@ -398,9 +392,10 @@ moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W, labels =
 moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W10, labels = FALSE, pch = 20, cex = 0.3)
 ```
 
-Videre tar vi i bruk lagranges multiplikatortest. 
+Videre tar vi i bruk lagranges multiplikatortest.
 
 Først for K=3:
+
 ```{r}
 kc_lagrange_3 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W, test = "all")
 kc_lagrange_3
@@ -413,22 +408,23 @@ kc_lagrange_10 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W10, test = "all")
 kc_lagrange_10
 ```
 
-Ved å se på modellene får vi opp at *LMerr*, *LMlag*, *LMlag*, *RLMerr* og *RLMlag* er signifikante ettersom p-verdien er lavere enn null. AV *RLMerr* og *RMlag* velger vi den med høyest verdi. 
+Ved å se på modellene får vi opp at *LMerr*, *LMlag*, *LMlag*, *RLMerr* og *RLMlag* er signifikante ettersom p-verdien er lavere enn null. AV *RLMerr* og *RMlag* velger vi den med høyest verdi.
 
 ### IV
 
-Spatial Durbin Error Model: 
+Spatial Durbin Error Model:
 
 ```{r, cache=TRUE}
 SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
 ```
+
 Spatial Lag of X:
 
 ```{r}
 SLX_seed <- lmSLX(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
 ```
 
-Spartial Error Model: 
+Spartial Error Model:
 
 ```{r}
 SEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin = FALSE)
@@ -447,7 +443,7 @@ LR.Sarlm(SDEM_seed, SEM_seed)
 LR.Sarlm(SDEM_seed, SLX_seed)
 ```
 
-*SDEM* vil være den beste modelle i dette tilfellet. 
+*SDEM* vil være den beste modelle i dette tilfellet.
 
 Videre foretar vi en kontrolltest mot *OLS*-modellen.
 
@@ -473,13 +469,13 @@ moran.plot(residuals(hedon3_seed), listw = kc_house_data_2222_W10)
 moran.plot(residuals(SDEM_seed), listw = kc_house_data_2222_W10)
 ```
 
-Ved å sammenligne figurene av OLS- og SDEM-modellene, ser man *SDEM* fjerne mye av den rommelige effekten. Legg merke til at vi bruker modell 3 som inneholder miljøfaktorer.   
+Ved å sammenligne figurene av OLS- og SDEM-modellene, ser man *SDEM* fjerne mye av den rommelige effekten. Legg merke til at vi bruker modell 3 som inneholder miljøfaktorer.
 
 ```{r}
 moran.test(residuals(SDEM_seed), listw = kc_house_data_2222_W10)
 ```
 
-## Oppgave 9; Utvalg 
+## Oppgave 9; Utvalg
 
 ```{r}
 set.seed(572)
@@ -576,9 +572,9 @@ moran.plot(residuals(SDEM_2000), listw = kc_house_data_2000_W10)
 moran.test(residuals(SDEM_2000), listw = kc_house_data_2000_W10)
 ```
 
-## Oppgave 10; Konklusjon 
+## Oppgave 10; Konklusjon
 
-Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene som er hentet fra *Kaggle* og de vi har fått tildelt er ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke avviker ikke i stor grad med hverandre.   
+Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene som er hentet fra *Kaggle* og de vi har fått tildelt er ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke avviker ikke i stor grad med hverandre.
 
 ```{r, echo=FALSE}
 #Ferdig
@@ -586,19 +582,6 @@ Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene so
 
 ## Reference
 
-^[Data provided by permission of King County.]
-
-
-
-
-
-
-
-
-
-
-
-
-
+[^1]: Data provided by permission of King County.
 
 
