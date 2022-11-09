@@ -3,9 +3,10 @@ title: "Arbeidskrav i MSB205"
 author: 
  - "Thibiga Kuddyar"
  - "Ingrid-Liv Morkken"
-format: html
+format: pdf
 editor: visual
 lang: no-NB
+
 ---
 
 ```{r setup, echo=FALSE, message=FALSE}
@@ -583,7 +584,9 @@ Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene so
 #Ferdig
 ```
 
+## Reference
 
+^[Data provided by permission of King County.]
 
 
 
