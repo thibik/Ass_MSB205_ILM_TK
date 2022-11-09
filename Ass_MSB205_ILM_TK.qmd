@@ -189,8 +189,6 @@ kc_house_env_var_omit <- kc_house_env_var[-c(11997),]
 st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALSE)
 ```
 
-## Får ikke til å gjøre om objekte til data.
-
 ```{r}
 kc_house_env_var_omit <- kc_house_env_var_omit %>% 
   mutate(year_month = substr(date, start = 1, stop = 7))
