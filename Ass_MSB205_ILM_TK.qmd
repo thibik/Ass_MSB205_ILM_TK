@@ -33,50 +33,130 @@ library(huxtable)
 
 ### Bishop et. al (2020) artikkel
 
-Artikkelen Bishop et al. (2020) tar for seg bruken av hedoniske modeller for å videre måle betalingsvilligheten for miljøkvalitet i et boligmarket, nærmere bestemt "marginal willingness to pay (MWTP)". Modellen tar utgangspunkt i at boligkjøpere velger bolig basert på to ulike faktorer; "stedsspesifikke fasiliteter" som innebærer blant annet luftkvalitet, utdanning o.l og "boligattributter" som for eksempel antall soverom og bad.
+Artikkelen Bishop et al. (2020) tar for seg bruken av hedoniske modeller
+for å videre måle betalingsvilligheten for miljøkvalitet i et
+boligmarket, nærmere bestemt "marginal willingness to pay (MWTP)".
+Modellen tar utgangspunkt i at boligkjøpere velger bolig basert på to
+ulike faktorer; "stedsspesifikke fasiliteter" som innebærer blant annet
+luftkvalitet, utdanning o.l og "boligattributter" som for eksempel
+antall soverom og bad.
 
 ### Rosen sitt første og andre steg
 
-Rosen (1974) sitt første steg innebærer å definere det gitte markedet for å videre kunne tilfredstille prinsippet om "law of one price function". Dette innebærer at i et marked, vil hus som er identiske selges for samme pris. Betingelsene i prinsippet kan variere over tid ettersom flyttekostander, informasjon og institusjoner kan endres. Selve markedet kan defineres på ulike måter, hvor den vanligste definisjonen er å se markedet som helhet, som et storbyområde over tid. Alternativt kan markedet defineres ved å se på data over tid, og over et større område enn kun ett. Det er likevel viktig å tilfredstille "law of one price function", hvor alternativ én dermed fungerer bedre i definisjonen av et marked. Ved å velge alternativ én vil en unngå å eksempelvis måtte hensynta flyttekostnader, jobbendring, skattekostnader og levekostnader som følge av flytting på tvers av metropoler.
+Rosen (1974) sitt første steg innebærer å definere det gitte markedet
+for å videre kunne tilfredstille prinsippet om "law of one price
+function". Dette innebærer at i et marked, vil hus som er identiske
+selges for samme pris. Betingelsene i prinsippet kan variere over tid
+ettersom flyttekostander, informasjon og institusjoner kan endres. Selve
+markedet kan defineres på ulike måter, hvor den vanligste definisjonen
+er å se markedet som helhet, som et storbyområde over tid. Alternativt
+kan markedet defineres ved å se på data over tid, og over et større
+område enn kun ett. Det er likevel viktig å tilfredstille "law of one
+price function", hvor alternativ én dermed fungerer bedre i definisjonen
+av et marked. Ved å velge alternativ én vil en unngå å eksempelvis måtte
+hensynta flyttekostnader, jobbendring, skattekostnader og levekostnader
+som følge av flytting på tvers av metropoler.
 
-Videre, etter markedet er klart definert starter innsamlingen av data - Rosen sitt andre steg. Det mest ønskelige for innsamling av data er å oppnå vilkårlig utvalg. De hedoniske boligverdi-studiene som nettopp oppnår den ønskelige data-innsamlingen, har oftest et fokus på eneboliger. I noen land, eksempelvis Norge og USA, blir kjøp og salg av bolig tinglyst noe som gjør boligtransaksjoner tilgjengelig for offentligheten. Dette betyr også tilgjengelighet for forskere, hvor en lettere kan få oversikt over eneboligsalg og også vurdere salgene i gitte tidsrom. Det er nærliggende å tro at den innsamlede og tilgjengelige dataen inneholder inntastningsfeil. Det er dermed viktig å luke ut og identifisere de potensielle feilene, for å oppnå best mulig kvalitet på data samt redusere feil. De feilene som oftest oppstår er ekskludering av data når kjøper og selger har likt etternavn, hvor slektskap kan være sannsynlig. Videre blir data for boliger kjøpt av investerings- og eiendomsfirma og tvangssalg utelatt, ettersom det kan forekomme at kvalitetsdetaljer og utfordringer ved boligen ikke er inkludert som en del av salgsrapporten. Det er også nødvendig å ekskludere data-avvik som eksempelvis at en bolig har flere hundre soverom.
+Videre, etter markedet er klart definert starter innsamlingen av data -
+Rosen sitt andre steg. Det mest ønskelige for innsamling av data er å
+oppnå vilkårlig utvalg. De hedoniske boligverdi-studiene som nettopp
+oppnår den ønskelige data-innsamlingen, har oftest et fokus på
+eneboliger. I noen land, eksempelvis Norge og USA, blir kjøp og salg av
+bolig tinglyst noe som gjør boligtransaksjoner tilgjengelig for
+offentligheten. Dette betyr også tilgjengelighet for forskere, hvor en
+lettere kan få oversikt over eneboligsalg og også vurdere salgene i
+gitte tidsrom. Det er nærliggende å tro at den innsamlede og
+tilgjengelige dataen inneholder inntastningsfeil. Det er dermed viktig å
+luke ut og identifisere de potensielle feilene, for å oppnå best mulig
+kvalitet på data samt redusere feil. De feilene som oftest oppstår er
+ekskludering av data når kjøper og selger har likt etternavn, hvor
+slektskap kan være sannsynlig. Videre blir data for boliger kjøpt av
+investerings- og eiendomsfirma og tvangssalg utelatt, ettersom det kan
+forekomme at kvalitetsdetaljer og utfordringer ved boligen ikke er
+inkludert som en del av salgsrapporten. Det er også nødvendig å
+ekskludere data-avvik som eksempelvis at en bolig har flere hundre
+soverom.
 
 ### MWTP og boligmarkedet som ett meteropolområde
 
-Forskere som benytter den hedoniske modellen må redegjøre for kjøpernes tanker rundt de tilgjengelige fasiliterer i det gitte boligområdet til huset. Dette innebærer videre å etablere en modell som evner å måle den romlige variasjonen av fasilitetene. Denne modellen kan skape hodebry for forskerne fordi dataen kan være varierende og ujevne, som videre kan gjøre det noe utfordrende å jobbe med. Dermed må forskerne evne å plukke ut hvilke målinger som best reflekterer det som ønskes svar på, dette må også være klart definert.
+Forskere som benytter den hedoniske modellen må redegjøre for kjøpernes
+tanker rundt de tilgjengelige fasiliterer i det gitte boligområdet til
+huset. Dette innebærer videre å etablere en modell som evner å måle den
+romlige variasjonen av fasilitetene. Denne modellen kan skape hodebry
+for forskerne fordi dataen kan være varierende og ujevne, som videre kan
+gjøre det noe utfordrende å jobbe med. Dermed må forskerne evne å plukke
+ut hvilke målinger som best reflekterer det som ønskes svar på, dette må
+også være klart definert.
 
-Det er ikke alltid salgspriser og data knyttet til eneboliger er tilgjengelig, men det finnes alternativer hvor forskerne gjerne heller benytter data for leiepriser, "anslåtte priser" (predicted), romlige aggregerte data og tomtesalg. Selv om det finnes alternativer, fører alternativene likevel med seg en del utfordirnger. Det å bruke data for leiepriser er i utgangspunktet et godt alternativ til eneboliger - men betingelsene i leiekontrakten kan være vanskelig å måle, hvor eksempelvis det ikke er intuitivt om utleier eller leietaker eksempelvis betaler for vedlikehold. Det kan også være utfordende å vurdere om kortitds-leietakere har samme behov og preferanser som eneboligkjøpere med tanke på område-fasilitene.
+Det er ikke alltid salgspriser og data knyttet til eneboliger er
+tilgjengelig, men det finnes alternativer hvor forskerne gjerne heller
+benytter data for leiepriser, "anslåtte priser" (predicted), romlige
+aggregerte data og tomtesalg. Selv om det finnes alternativer, fører
+alternativene likevel med seg en del utfordirnger. Det å bruke data for
+leiepriser er i utgangspunktet et godt alternativ til eneboliger - men
+betingelsene i leiekontrakten kan være vanskelig å måle, hvor
+eksempelvis det ikke er intuitivt om utleier eller leietaker eksempelvis
+betaler for vedlikehold. Det kan også være utfordende å vurdere om
+kortitds-leietakere har samme behov og preferanser som eneboligkjøpere
+med tanke på område-fasilitene.
 
-Data knyttet til anslåtte priser kan ofte være påvirket av selgers egne antakelser knyttet til boligverdien - en estimering som gjerne er gjort gjennom spørreundersøkelser. Anslått pris kan også bli satt av utenforstående eiendomsfirma/megler, men det er likevel foretrukket å benytte boligens faktiske prisverdi og ikke en anslått verdi. Utfordringen de anslåtte prisene omhandler er målefeil knyttet opp mot fasiliteter (bolig, nabolag, demografi), som kan føre til en skjevhet i prisestimatet.
+Data knyttet til anslåtte priser kan ofte være påvirket av selgers egne
+antakelser knyttet til boligverdien - en estimering som gjerne er gjort
+gjennom spørreundersøkelser. Anslått pris kan også bli satt av
+utenforstående eiendomsfirma/megler, men det er likevel foretrukket å
+benytte boligens faktiske prisverdi og ikke en anslått verdi.
+Utfordringen de anslåtte prisene omhandler er målefeil knyttet opp mot
+fasiliteter (bolig, nabolag, demografi), som kan føre til en skjevhet i
+prisestimatet.
 
-Den hedoniske modellen kan som nevnt også benytte tomtesalg som et alternativ til eneboligsalg. Tomtesalg kan si noe om prisvariasjonen opp mot karakteristikken av området. Problemet med tomtesalg er at det er noen faktorer som her også kan skape skjevfordeling i prisestimatet, fordi det ikke er observasjonsgrunnlag. Dette innebærer blant annet vanntilførsel og kloakk, samt bestemte lover for området og inndeling av soner.
+Den hedoniske modellen kan som nevnt også benytte tomtesalg som et
+alternativ til eneboligsalg. Tomtesalg kan si noe om prisvariasjonen opp
+mot karakteristikken av området. Problemet med tomtesalg er at det er
+noen faktorer som her også kan skape skjevfordeling i prisestimatet,
+fordi det ikke er observasjonsgrunnlag. Dette innebærer blant annet
+vanntilførsel og kloakk, samt bestemte lover for området og inndeling av
+soner.
 
-Sist, kan romlige aggregerte data benyttes - men her er det utfordringer knyttet til median ettersom at medianprisene kan avvike fra det generelle prisnivået. Dette gjør at hedoniske prisregresjoner som inkluderer medianer vil være skjeve ved starten av målingen - som videre kan ha utslag på MWTP.
+Sist, kan romlige aggregerte data benyttes - men her er det utfordringer
+knyttet til median ettersom at medianprisene kan avvike fra det
+generelle prisnivået. Dette gjør at hedoniske prisregresjoner som
+inkluderer medianer vil være skjeve ved starten av målingen - som videre
+kan ha utslag på MWTP.
 
-Det er viktig å unngå de utelatte variablene når den hedoniske prismodellen skal estimeres på bakgrunn av to variabler. Den første går ut på at det vil være usannsynlig at forskere kan inkludere alle preferanser kjøpere har knyttet til fasiliteter. Det andre er den skjevfordelingen som oppstår når noen av kjøperne sine preferanser ikke er inkludert eller i modellen. Bishop et. al (2020) knytter følgende eksempel til de utelatte variablene; Dersom boligkjøpere fra "overklassen" velger å flytte til et annet område med begrunnelsen om at det nye området har bedre luftkvalitet, for og så stemme for et økt tilskudd til offentlige skoler, vil det være en skjevhet i den estimerte MWTP for luftkvalitet dersom skolen er en utelatt faktor i modellen.
+Det er viktig å unngå de utelatte variablene når den hedoniske
+prismodellen skal estimeres på bakgrunn av to variabler. Den første går
+ut på at det vil være usannsynlig at forskere kan inkludere alle
+preferanser kjøpere har knyttet til fasiliteter. Det andre er den
+skjevfordelingen som oppstår når noen av kjøperne sine preferanser ikke
+er inkludert eller i modellen. Bishop et. al (2020) knytter følgende
+eksempel til de utelatte variablene; Dersom boligkjøpere fra
+"overklassen" velger å flytte til et annet område med begrunnelsen om at
+det nye området har bedre luftkvalitet, for og så stemme for et økt
+tilskudd til offentlige skoler, vil det være en skjevhet i den estimerte
+MWTP for luftkvalitet dersom skolen er en utelatt faktor i modellen.
 
 ## Oppgave 2; House Sales in King County
 
-## Leser inn CSV-fil
+##### Leser inn CSV-fil
 
 ```{r, message=FALSE}
 kc_house_data <- read_csv("kc_house_data.csv")
 ```
 
-## Sorterer salgene "descending" etter dato
+##### Sorterer salgene "descending" etter dato
 
 ```{r}
 kc_house_data <- arrange(kc_house_data, desc(date))
 ```
 
-## Velger siste salg hvor vi har multiple salg av samme eiendom
+##### Velger siste salg hvor vi har multiple salg av samme eiendom
 
 ```{r}
 kc_house_data <- kc_house_data %>% 
   distinct(id, .keep_all=TRUE)
 ```
 
-## Konvertering til sf-objekt + EPSG:2926
+##### Konvertering til sf-objekt + EPSG:2926
 
 ```{r}
 kc_house_data_sf <- st_as_sf(kc_house_data,
@@ -85,14 +165,15 @@ kc_house_data_sf <- st_as_sf(kc_house_data,
   st_transform(2926)
 ```
 
-Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I desimaler: 47.609722, -122.333056
+*Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I
+desimaler: 47.609722, -122.333056*
 
 ```{r}
 cbd <- st_sfc(st_point(c(-122.333056, 47.609722)), crs = 4326) %>%
   st_transform(2926)
 ```
 
-Konvertering og avstandsmåling
+##### Konvertering og avstandsmåling
 
 ```{r}
 kc_house_data_sf <- kc_house_data_sf %>%
@@ -206,15 +287,19 @@ summary(kc_tracts10_env_data)
 summary(kc_tracts10_shore_env_var)
 ```
 
-###Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i tracts10_shore enn i tracts10. Ser dere nå hva som går galt med tracts10_shore?
+###Spørsmål_ii. Forklar hvorfor vi har mange flere NA (25 flere) i
+tracts10_shore enn i tracts10. Ser dere nå hva som går galt med
+tracts10_shore?
 
-En observasjon faller utenfor kommunegrensene, noe som blir synlig ved å observere data opp mot kartet i QGIS.
+Én observasjon faller utenfor kommunegrensene, noe som blir synlig ved å
+observere data opp mot kartet i QGIS.
 
-![Figur1:Kommunegrense](Kart/Skjermbilde_1.png)
+![*Figur 1: Kommunegrense*](Kart/Skjermbilde_1.png)
 
-![Figur2](Kart/Skjermbilde_2.png)
+Ved å legge til vannlinjen, ser vi i kartet under at grunnen til at det
+gis 25 NA er fordi 25 observasjoner ligger utenfor vannlinjen.
 
-## Husk å gi bedre navn til figurene!!
+![*Figur 2: Vannlinje* ](Kart/Skjermbilde_2.png)
 
 ```{r}
 kc_house_env_var <- arrange(kc_house_env_var, desc(id))
@@ -234,39 +319,71 @@ kc_house_env_var_omit <- kc_house_env_var_omit %>%
 st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALSE)
 ```
 
-## Oppgave 5; GeoDa
+## Oppgave 5: GeoDa
+
+### Tre nærmeste  naboer
 
 ![]()
 
 ![](Kart/Skjermbilde_4.png){fig-align="center"}
 
-## 3 naboer
+*Figur 1: Tre nærmeste naboer*
 
-![små&dyr](Kart/Skjermbilde_5.png){fig-align="center"}
+### Små og dyre boliger
 
-![store&dyr](Kart/Skjermbilde_6.png){fig-align="center"}
+![*Figur 2: Gule punkter viser små og dyre boliger.*
+](Kart/Skjermbilde_5.png){fig-align="center"}
+
+### Store og dyre boliger
+
+![*Figur 3: Grønne punkter viser store og dyre boliger.*
+](Kart/Skjermbilde_6.png){fig-align="center"}
 
 ![](Kart/Skjermbilde_3.png){fig-align="center"}
 
-![stor&billig](Kart/Skjermbilde_7.png){fig-align="center"}
+### Store og billige boliger
 
-![små&billig](Kart/Skjermbilde_8.png){fig-align="center"}
+![*Figur 4: Røde punkter viser store og billige
+boliger.*](Kart/Skjermbilde_7.png){fig-align="center"}
+
+### Små og billige boliger
+
+![*Figur 5: Blå punkter viser små og billige
+boliger.*](Kart/Skjermbilde_8.png){fig-align="center"}
 
 ## 10 naboer
 
-![små&dyr](Kart/Skjermbilde_9.png){fig-align="center"}
+#### figur?
 
-![stor&dyr](Kart/Skjermbilde_10.png){fig-align="center"}
+### Små og dyre boliger
 
-![stor&billig](Kart/Skjermbilde_11.png){fig-align="center"}
+![*Figur 1: Gule punkter viser små og dyre boliger.*
+](Kart/Skjermbilde_9.png){fig-align="center"}
 
-![små&billig](Kart/Skjermbilde_12.png){fig-align="center"}
+### Store og dyre boliger
+
+![*Figur 2: Grønne punkter viser store og dyre boliger.*
+](Kart/Skjermbilde_10.png){fig-align="center"}
+
+### Store og billige boliger
+
+![*Figur 3: Røde punker viser store og billige
+boliger.*](Kart/Skjermbilde_11.png){fig-align="center"}
+
+### Små og billige boliger
+
+![*Figur 4: Blå punkter viser små og billige boliger.*
+](Kart/Skjermbilde_12.png){fig-align="center"}
 
 ## Oppgave 6; Hedonisk modeller
 
 ### oppgave i.
 
-Ved å se på pris i forhold til størrelsen på en bolig, ser en at billige og små boliger ligger nær sentrum. Ser en på de store og dyre boligene er dem plassert på østsiden for Seattle. Små og dyre boliger ligger tett rundt sentrum av Seattle. De store og billige ligger spredt i de landlige delen av King County.
+Ved å se på pris i forhold til størrelsen på en bolig, ser en at billige
+og små boliger ligger nær sentrum. Ser en på de store og dyre boligene
+er dem plassert på østsiden for Seattle. Små og dyre boliger ligger tett
+rundt sentrum av Seattle. De store og billige ligger spredt i de
+landlige delen av King County.
 
 ### Modell 1
 
@@ -298,7 +415,9 @@ huxreg("Hedon1" = hedon1, "Hedon2" = hedon2, "Hedon3" = hedon3,
        note = "{stars}. T statistics in brackets.")
 ```
 
-Av disse tre hedonske modellene er *mod2* bedre enn *mod3* med tanke på forklaringskraft. Men velger heller å jobbe med *mod3* ettersom den har en "samlevariabel" som fanger opp miljøfaktorer fra *mod2*.
+Av disse tre hedonske modellene er *mod2* bedre enn *mod3* med tanke på
+forklaringskraft. Men velger heller å jobbe med *mod3* ettersom den har
+en "samlevariabel" som fanger opp miljøfaktorer fra *mod2*.
 
 ```{r}
 hedon1 %>% 
@@ -413,7 +532,8 @@ kc_house_data_2222_nb10 <- knn2nb(kc_house_data_2222_mat_nb10)
 kc_house_data_2222_W10 <- nb2listw(kc_house_data_2222_nb10)
 ```
 
-Bruker moran's test av det nye datasettet for å finne ut om vi har uforklarte spatial effekt i residualene.
+Bruker moran's test av det nye datasettet for å finne ut om vi har
+uforklarte spatial effekt i residualene.
 
 ```{r}
 lm.morantest(hedon3_seed, kc_house_data_2222_W)
@@ -444,7 +564,9 @@ kc_lagrange_10 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W10, test = "all")
 kc_lagrange_10
 ```
 
-Ved å se på modellene får vi opp at *LMerr*, *LMlag*, *LMlag*, *RLMerr* og *RLMlag* er signifikante ettersom p-verdien er lavere enn null. AV *RLMerr* og *RMlag* velger vi den med høyest verdi.
+Ved å se på modellene får vi opp at *LMerr*, *LMlag*, *LMlag*, *RLMerr*
+og *RLMlag* er signifikante ettersom p-verdien er lavere enn null. AV
+*RLMerr* og *RMlag* velger vi den med høyest verdi.
 
 ### IV
 
@@ -505,7 +627,9 @@ moran.plot(residuals(hedon3_seed), listw = kc_house_data_2222_W10)
 moran.plot(residuals(SDEM_seed), listw = kc_house_data_2222_W10)
 ```
 
-Ved å sammenligne figurene av OLS- og SDEM-modellene, ser man *SDEM* fjerne mye av den rommelige effekten. Legg merke til at vi bruker modell 3 som inneholder miljøfaktorer.
+Ved å sammenligne figurene av OLS- og SDEM-modellene, ser man *SDEM*
+fjerne mye av den rommelige effekten. Legg merke til at vi bruker modell
+3 som inneholder miljøfaktorer.
 
 ```{r}
 moran.test(residuals(SDEM_seed), listw = kc_house_data_2222_W10)
@@ -611,7 +735,10 @@ moran.test(residuals(SDEM_2000), listw = kc_house_data_2000_W10)
 
 ## Oppgave 10; Konklusjon
 
-Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene som er hentet fra *Kaggle*[^1] og de vi har fått tildelt er ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke avviker ikke i stor grad med hverandre.
+Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at
+dataene som er hentet fra *Kaggle*[^1] og de vi har fått tildelt er
+ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke
+avviker ikke i stor grad med hverandre.
 
 [^1]: Data provided by permission of King County.
 
