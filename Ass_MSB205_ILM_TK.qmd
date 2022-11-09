@@ -3,7 +3,9 @@ title: "Arbeidskrav i MSB205"
 author: 
  - "Thibiga Kuddyar"
  - "Ingrid-Liv Morkken"
-format: pdf
+format:
+  pdf: 
+    documentclass: report
 editor: visual
 lang: no-NB
 ---
@@ -155,8 +157,12 @@ kc_house_data_sf <- st_as_sf(kc_house_data,
   st_transform(2926)
 ```
 
+<<<<<<< HEAD
 Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I
 desimaler: 47.609722, -122.333056
+=======
+Koordinatene til Seattle hentet fra Wikipedia: 47°36'35N 122°1955V I desimaler: 47.609722, -122.333056
+>>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
 
 ```{r}
 cbd <- st_sfc(st_point(c(-122.333056, 47.609722)), crs = 4326) %>%
@@ -174,9 +180,10 @@ kc_house_data_sf <- kc_house_data_sf %>%
 ## Oppgave 3 WADOH Environmental Health Disparities Index County
 
 ```{r}
-kc_wadoh_map <- here("../WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area") %>% 
+kc_wadoh_map <- here("Kart/WADOH_Environmental_Health_Disparities_Index_Calculated_for_King_County___wadohehdindex_area")%>% 
   st_read() %>% 
   st_transform(2926)
+#Dersom jeg bruker .shp får jeg opp feilmelding om at filen ikke finnes i mappen. 
 ```
 
 ```{r}
@@ -211,7 +218,7 @@ acs_b19101_fam_inc <- read.dbf("../censusSHP/acs_b19101_familyincome.dbf")
 
 ```{r}
 acs_b19101_fam_inc <- acs_b19101_fam_inc %>% 
-  mutate(low = (E19101138 + E19101139 + E19101140 + E19101141 + E19101141 + E19101143)/E19101147) %>% 
+  mutate(low = (E19101138 + E19101139 + E19101140 + E19101141 + E19101142 + E19101143)/E19101137) %>% 
   mutate(mid = (E19101144 + E19101145 + E19101146 + E19101147 + E19101148 + E19101149)/E19101137) %>% 
   mutate(high = (E19101150 + E19101151 + E19101152 + E19101153)/E19101137)
 ```
@@ -223,11 +230,7 @@ acs_b19101_fam_inc <- acs_b19101_fam_inc %>%
 ```
 
 ```{r}
-kc_wadoh_map_2 <- left_join(
-  acs_b19101_fam_inc,
- st_drop_geometry(kc_wadoh_map),
-  by = "GEO_ID_TRT"
-)
+kc_wadoh_map_2 <- left_join(acs_b19101_fam_inc, st_drop_geometry(kc_wadoh_map), by = "GEO_ID_TRT")
 ```
 
 ```{r}
@@ -248,10 +251,7 @@ kc_tracts10_env_data <- left_join(
 ```
 
 ```{r}
-kc_tracts10_shore_env_data <- left_join(
-  kc_tracts10_shore,  kc_wadoh_map_2,
-  by = "GEO_ID_TRT"
-)
+kc_tracts10_shore_env_data <- left_join(kc_tracts10_shore, kc_wadoh_map_2, by= "GEO_ID_TRT")
 ```
 
 ```{r}
@@ -259,18 +259,18 @@ summary(kc_tracts10)
 ```
 
 ```{r}
-kc_houses_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
+kc_house_env_var <- st_join(kc_house_data_sf, kc_tracts10_env_data)
 kc_tracts10_shore_env_var <- st_join(kc_house_data_sf, kc_tracts10_shore_env_data)
 ```
 
 ## Oppgave 4 "Spatial join"
 
 ```{r}
-st_write(kc_house_data, "../censusSHP/kc_house_data.gpkg", append=FALSE)
-st_write(kc_tracts10,"../censusSHP/kc_tracts10.gpkg", append = FALSE)
-st_write(kc_tracts10_shore, "../censusSHP/kc_tracts10_shore.gpkg",append= FALSE)
-st_write(kc_houses_env_var, "../censusSHP/kc_houses_env_var.gpkg", append=FALSE)
-st_write(kc_tracts10_shore_env_var, "../censusSHP/kc_tracts10_shore_env_var.gpkg", append=FALSE)
+st_write(kc_house_data, "Kart/kc_house_data.gpkg", append = FALSE)
+st_write(kc_tracts10, "Kart/kc_tracts10.gpkg", append = FALSE)
+st_write(kc_tracts10_shore, "Kart/kc_tracts10_shore.gpkg", append = FALSE)
+st_write(kc_house_env_var, "Kart/kc_house_env_var.gpkg", append = FALSE)
+st_write(kc_tracts10_shore_env_var, "Kart/kc_tracts10_shore_env_var.gpkg", append = FALSE)
 ```
 
 ```{r}
@@ -292,25 +292,21 @@ tracts10_shore?
 ## Husk å gi bedre navn til figurene!!
 
 ```{r}
-kc_houses_env_var <- arrange(kc_houses_env_var, desc(id))
-kc_houses_env_var_omit <- kc_houses_env_var[-c(11997),]
+kc_house_env_var <- arrange(kc_house_env_var, desc(id))
+kc_house_env_var_omit <- kc_house_env_var[-c(11997),]
 ```
 
 ```{r}
-st_write(kc_houses_env_var_omit, "../censusSHP/kc_houses_env_var_omit.gpkg", append = FALSE)
-```
-
-## Får ikke til å gjøre om objekte til data.
-
-```{r}
-kc_houses_env_var_omit <- kc_houses_env_var_omit %>% 
-  mutate(
-    year_month = substr(date, start = 1, stop = 7)
-  )
+st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALSE)
 ```
 
 ```{r}
-st_write(kc_houses_env_var_omit,"../censusSHP/kc_houses_env_var_omit.gpkg", append=FALSE)
+kc_house_env_var_omit <- kc_house_env_var_omit %>% 
+  mutate(year_month = substr(date, start = 1, stop = 7))
+```
+
+```{r}
+st_write(kc_house_env_var_omit, "Kart/kc_house_env_var_omit.gpkg", append = FALSE)
 ```
 
 ## Oppgave 5; GeoDa
@@ -341,10 +337,15 @@ st_write(kc_houses_env_var_omit,"../censusSHP/kc_houses_env_var_omit.gpkg", appe
 
 ![små&billig](Kart/Skjermbilde_12.png){fig-align="center"}
 
-## Oppgave 6
+## Oppgave 6; Hedonisk modeller
 
-### oppgave i. Gi en kort sammenfatning av funnene fra EDA.
+### oppgave i.
 
+<<<<<<< HEAD
+=======
+Ved å se på pris i forhold til størrelsen på en bolig, ser en at billige og små boliger ligger nær sentrum. Ser en på de store og dyre boligene er dem plassert på østsiden for Seattle. Små og dyre boliger ligger tett rundt sentrum av Seattle. De store og billige ligger spredt i de landlige delen av King County.
+
+>>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
 ### Modell 1
 
 ```{r}
@@ -360,14 +361,13 @@ mod2 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot +
 ### Modell 3
 
 ```{r}
-mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + year_month"
-#Denne funksjonen funker ikke hvis jeg har med variablene "high + low"
+mod3 <- "price ~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + low + high + EHD_percen + year_month"
 ```
 
 ```{r}
-hedon1 <- lm(mod1, data=kc_houses_env_var_omit)
-hedon2 <- lm(mod2, data=kc_houses_env_var_omit)
-hedon3 <- lm(mod3, data=kc_houses_env_var_omit)
+hedon1 <- lm(mod1, data= kc_house_env_var_omit)
+hedon2 <- lm(mod2, data=kc_house_env_var_omit)
+hedon3 <- lm(mod3, data = kc_house_env_var_omit)
 ```
 
 ```{r}
@@ -375,6 +375,8 @@ huxreg("Hedon1" = hedon1, "Hedon2" = hedon2, "Hedon3" = hedon3,
        error_format= "[{statistic}]", 
        note = "{stars}. T statistics in brackets.")
 ```
+
+Av disse tre hedonske modellene er *mod2* bedre enn *mod3* med tanke på forklaringskraft. Men velger heller å jobbe med *mod3* ettersom den har en "samlevariabel" som fanger opp miljøfaktorer fra *mod2*.
 
 ```{r}
 hedon1 %>% 
@@ -395,7 +397,11 @@ plot()
 
 ### Oppgave iv. Test og diskuter hvilken modell som er best.
 
+<<<<<<< HEAD
 ## oppgave 7 - Tidsdummy
+=======
+## oppgave 7; Tidsdummy
+>>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
 
 ```{r}
 hedon1 %>% 
@@ -430,10 +436,14 @@ hedon3 %>%
                      white_adjust = hc1)
 ```
 
+<<<<<<< HEAD
 ## Oppgave 8 - Spatial Regressions
+=======
+## Oppgave 8; Spatial Regressions
+>>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
 
 ```{r}
-kc_house_data_2222 <- here("Kart/kc_house_data_2222_Ingrid_og_Thibiga.gpkg") %>% 
+kc_house_data_2222 <- here("Kart/kc_house_data_2222_Ingrid_og_Thibiga.gpkg") %>%
   st_read() %>% 
   st_transform(2926)
 ```
@@ -446,11 +456,22 @@ kc_house_data_2222 <- kc_house_data_2222 %>%
 year_month=substr(date, start=1, stop=7))
 ```
 
+Endrer navnet til "low", "mid" og "high"
+
 ```{r}
 kc_house_data_2222 <- kc_house_data_2222 %>% 
-  rename(low = inc_fam_low_per,
-         mid=inc_fam_med_per,
-         high=inc_fam_high_per)
+    rename(low = inc_fam_low_per,
+           mid = inc_fam_med_per,
+           high = inc_fam_high_per)
+```
+
+```{r}
+#| eval: false
+# ag: inc_fam_low_per etc. finnes ikke i kc_house_data_2222
+#kc_house_data_2222 <- kc_house_data_2222 %>% 
+#  rename(low = inc_fam_low_per,
+#        mid=inc_fam_med_per,
+#       high=inc_fam_high_per)
 ```
 
 ```{r}
@@ -462,11 +483,15 @@ huxreg("Full" = hedon3, "Seed" = hedon3_seed, error_format="[{statistic}]",
        note = "{stars}. T statistic in brackets.")
 ```
 
+Generer en vektmatrise for k3:
+
 ```{r}
 kc_house_data_2222_mat_nb <- knearneigh(kc_house_data_2222, k = 3)
 kc_house_data_nb <- knn2nb(kc_house_data_2222_mat_nb)
 kc_house_data_2222_W <- nb2listw(kc_house_data_nb, style = "W")
 ```
+
+Generer en vektmatrise for k10:
 
 ```{r}
 kc_house_data_2222_mat_nb10 <- knearneigh(kc_house_data_2222, k = 10)
@@ -474,6 +499,11 @@ kc_house_data_2222_nb10 <- knn2nb(kc_house_data_2222_mat_nb10)
 kc_house_data_2222_W10 <- nb2listw(kc_house_data_2222_nb10)
 ```
 
+<<<<<<< HEAD
+=======
+Bruker moran's test av det nye datasettet for å finne ut om vi har uforklarte spatial effekt i residualene.
+
+>>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
 ```{r}
 lm.morantest(hedon3_seed, kc_house_data_2222_W)
 lm.morantest(hedon3_seed, kc_house_data_2222_W10)
@@ -487,22 +517,202 @@ moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W, labels =
 moran.plot(log(kc_house_data_2222$price), listw = kc_house_data_2222_W10, labels = FALSE, pch = 20, cex = 0.3)
 ```
 
+Videre tar vi i bruk lagranges multiplikatortest.
+
+Først for K=3:
+
 ```{r}
 kc_lagrange_3 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W, test = "all")
 kc_lagrange_3
 ```
+
+Deretter for K=10:
 
 ```{r}
 kc_lagrange_10 <- lm.LMtests(hedon3_seed, kc_house_data_2222_W10, test = "all")
 kc_lagrange_10
 ```
 
+<<<<<<< HEAD
 ```{r cache=TRUE}
 SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222_W10, listw= kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
+=======
+Ved å se på modellene får vi opp at *LMerr*, *LMlag*, *LMlag*, *RLMerr* og *RLMlag* er signifikante ettersom p-verdien er lavere enn null. AV *RLMerr* og *RMlag* velger vi den med høyest verdi.
+
+### IV
+
+Spatial Durbin Error Model:
+
+```{r, cache=TRUE}
+SDEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
+```
+
+Spatial Lag of X:
+
+```{r}
+SLX_seed <- lmSLX(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
+```
+
+Spartial Error Model:
+
+```{r}
+SEM_seed <- errorsarlm(mod3, data = kc_house_data_2222, listw = kc_house_data_2222_W, Durbin = FALSE)
 ```
 
 ```{r}
-SLX_seed <- lmSLX(mod3, data= kc_house_data_2222, listw=kc_house_data_2222_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen))
-# + low + high
-#Virker uten low og high 
+summary(impacts(SDEM_seed), zstats = TRUE)
 ```
+
+```{r}
+huxreg("SEM" = SEM_seed, "OLS" = hedon3_seed, error_format = "[{statistic}]", note = "{stars}, T statistic in brackets.")
+```
+
+```{r}
+LR.Sarlm(SDEM_seed, SEM_seed)
+LR.Sarlm(SDEM_seed, SLX_seed)
+```
+
+*SDEM* vil være den beste modelle i dette tilfellet.
+
+Videre foretar vi en kontrolltest mot *OLS*-modellen.
+
+```{r}
+LR1.Sarlm(SDEM_seed)
+```
+
+```{r}
+Hausman.test(SEM_seed) 
+```
+
+```{r}
+bptest.Sarlm(SEM_seed,studentize = TRUE)
+```
+
+### VI
+
+```{r}
+moran.plot(residuals(hedon3_seed), listw = kc_house_data_2222_W10)
+```
+
+```{r}
+moran.plot(residuals(SDEM_seed), listw = kc_house_data_2222_W10)
+```
+
+Ved å sammenligne figurene av OLS- og SDEM-modellene, ser man *SDEM* fjerne mye av den rommelige effekten. Legg merke til at vi bruker modell 3 som inneholder miljøfaktorer.
+
+```{r}
+moran.test(residuals(SDEM_seed), listw = kc_house_data_2222_W10)
+```
+
+## Oppgave 9; Utvalg
+
+```{r}
+set.seed(572)
+kc_house_env_var_omit_2000 <- kc_house_env_var_omit[sample(1:nrow(kc_house_env_var_omit), 2000, replace = FALSE), ]
+```
+
+```{r}
+hedon3_2000 <- lm(mod3, data = kc_house_env_var_omit_2000)
+```
+
+```{r}
+huxreg("Full" = hedon3, "2000 Seed" = hedon3_2000, "2222 Seed" = hedon3_seed, 
+    error_format = "[{statistic}]",
+    note = "{stars}. T statistic in brackets.")
+```
+
+```{r}
+kc_house_data_2000_mat_nb <- knearneigh(kc_house_env_var_omit_2000, k = 3)
+kc_house_data_2000_nb <- knn2nb(kc_house_data_2000_mat_nb)
+kc_house_data_2000_W <- nb2listw(kc_house_data_2000_nb, style = "W")
+```
+
+```{r}
+kc_house_data_2000_mat_nb10 <- knearneigh(kc_house_env_var_omit_2000, k = 10)
+kc_house_data_2000_nb10 <- knn2nb(kc_house_data_2000_mat_nb10)
+kc_house_data_2000_W10 <- nb2listw(kc_house_data_2000_nb10, style = "W")
+```
+
+```{r}
+lm.morantest(hedon3_2000, kc_house_data_2000_W)
+lm.morantest(hedon3_2000, kc_house_data_2000_W10)
+```
+
+```{r}
+moran.plot(log(kc_house_env_var_omit_2000$price), listw= kc_house_data_2000_W, labels = FALSE, pch = 20, cex = 0.3)
+```
+
+```{r}
+moran.plot(log(kc_house_env_var_omit_2000$price), listw = kc_house_data_2000_W10, labels = FALSE, pch = 20, cex = 0.3)
+```
+
+```{r}
+kc_lagrange_3_2000 <- lm.LMtests(hedon3_2000, kc_house_data_2000_W, test = "all")
+kc_lagrange_3_2000
+```
+
+```{r}
+kc_lagrange_10_2000 <- lm.LMtests(hedon3_2000, kc_house_data_2000_W10, test = "all")
+kc_lagrange_10_2000
+```
+
+```{r}
+SDEM_2000 <- errorsarlm(mod3, data = kc_house_env_var_omit_2000, listw = kc_house_data_2000_W, Durbin = as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
+>>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
+```
+
+```{r}
+SLX_2000 <- lmSLX(mod3, data = kc_house_env_var_omit_2000, listw = kc_house_data_2000_W, Durbin =  as.formula(~ bedrooms + bathrooms + sqft_living + sqft_living15 + sqft_lot + sqft_lot15 + sqft_above + floors + grade + yr_built + yr_renovated + waterfront + condition + view + dist_cbd_km + EHD_percen + low + high))
+```
+<<<<<<< HEAD
+=======
+
+```{r}
+SEM_2000 <- errorsarlm(mod3, data = kc_house_env_var_omit_2000, listw = kc_house_data_2000_W, Durbin = FALSE)
+```
+
+```{r}
+summary(impacts(SDEM_2000), zstats = TRUE)
+```
+
+```{r}
+huxreg("SEM" = SEM_2000, "OLS" = hedon3_2000, error_format = "[{statistic}]", note = "{stars}. T statistic in brackets.")
+```
+
+```{r}
+LR.Sarlm(SDEM_2000, SEM_2000)
+LR.Sarlm(SDEM_2000, SLX_2000)
+```
+
+```{r}
+Hausman.test(SEM_2000)
+```
+
+```{r}
+bptest.Sarlm(SEM_2000, studentize = TRUE)
+```
+
+```{r}
+moran.plot(residuals(hedon3_2000), listw = kc_house_data_2000_W10)
+```
+
+```{r}
+moran.plot(residuals(SDEM_2000), listw = kc_house_data_2000_W10)
+```
+
+```{r}
+moran.test(residuals(SDEM_2000), listw = kc_house_data_2000_W10)
+```
+
+## Oppgave 10; Konklusjon
+
+Hvis man ser på dataene som vi har brukt i denne oppgaven, ser vi at dataene som er hentet fra *Kaggle*[^1] og de vi har fått tildelt er ganske like. Vi ser i tillegg at tilfeldig og definert utvalg ikke avviker ikke i stor grad med hverandre.
+
+[^1]: Data provided by permission of King County.
+
+```{r, echo=FALSE}
+#Ferdig
+```
+
+## Reference
+>>>>>>> 8a64899f2a4830a90e58b1dea3945f31f0678929
